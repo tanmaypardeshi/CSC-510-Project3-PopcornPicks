@@ -32,6 +32,12 @@ def landing_page():
     """
     return render_template("landing_page.html")
 
+@app.route("/login")
+def login_page():
+    """
+    Renders the login page.
+    """
+    return render_template("login.html")
 
 @app.route("/search_page")
 def search_page():

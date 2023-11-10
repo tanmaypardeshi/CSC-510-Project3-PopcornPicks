@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+console.log('hello')
   $(function () {
     $("#searchBox").autocomplete({
       source: function (request, response) {
@@ -127,6 +127,7 @@ $(document).ready(function () {
 
   // Function to handle Get Started button click
   function getStarted() {
+    console.log("Made it to this function!")
     // Navigate to the search page
     $("#loaderLanding").attr("class", "d-flex justify-content-center");
     $("#centralDivLanding").hide();
