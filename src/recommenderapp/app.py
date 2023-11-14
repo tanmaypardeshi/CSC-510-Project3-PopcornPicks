@@ -8,7 +8,7 @@ This code is licensed under MIT license (see LICENSE for details)
 import json
 import sys
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, session, redirect
 from flask_cors import CORS
 from search import Search
 from utils import beautify_feedback_data, send_email_to_user
@@ -17,35 +17,127 @@ sys.path.append("../../")
 #pylint: disable=wrong-import-position
 from src.prediction_scripts.item_based import recommend_for_new_user
 #pylint: enable=wrong-import-position
-
+import db
 
 app = Flask(__name__)
 app.secret_key = "secret key"
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
+# Connect to the database
+db.connect()
+# Initialize the database for users
+db.mutation_query('''
+        CREATE TABLE IF NOT EXISTS users (
+            email    varchar(500),
+            password    varchar(500)
+        )
+    ''')
+
+def get_user():
+    """
+    Returns the user's email if a user is logged in, otherwise returns none
+    """
+    ret = 'None'
+    if 'email' in session:
+        # An email is in the session
+        ret = session['email']
+    return ret
 
 @app.route("/")
 def landing_page():
     """
-    Renders the landing page.
+    Renders the landing page with the user.
     """
-    return render_template("landing_page.html")
+    return render_template("landing_page.html", user=get_user())
 
 @app.route("/login")
 def login_page():
     """
     Renders the login page.
     """
-    return render_template("login.html")
+    return render_template("login.html", user=get_user())
+
+@app.route("/signup")
+def signup_page():
+    """
+    Renders the signup page.
+    """
+    return render_template("signup.html", user=get_user())
 
 @app.route("/search_page")
 def search_page():
     """
     Renders the search page.
     """
-    return render_template("search_page.html")
+    return render_template("search_page.html", user=get_user())
 
+@app.route('/processSignup', methods = ["POST","GET"])
+def processSignup():
+    """
+    Queries the database to see if the user already exists. If so it lets the javascript know
+    If not, the new user is added to the database
+    """
+    ret = {}
+    # Below is how we create a dictionary of the data sent from the input form
+    form_fields = dict((key, request.form.getlist(key)[0]) for key in list(request.form.keys()))
+    print(form_fields)
+
+    # query to see if user in the database already
+    user_query = f"SELECT * FROM users where email=?"
+    result = db.select_query(user_query, (form_fields["email"],))
+    print(result)
+    print('blehhhhh')
+    result = result.fetchone() # get the first row
+    print(result)
+    if result is None:
+        # if email is not in the database then we add it
+        add_user_query = f"INSERT INTO users (email, password) VALUES (?,?)"
+        db.mutation_query(add_user_query, (form_fields["email"], form_fields["password"]))
+        ret["success"] = 1  # send a success indicator back to the javascript side
+
+    # If user is in database, then send a failure indicator
+    else:
+        ret["success"] = 0
+
+    return ret
+
+@app.route('/processLogin', methods = ["POST","GET"])
+def processLogin():
+    """
+    Checks to see if the username name and password are valid
+    If so, the user is logged in via adding their email to the session data
+    Otherwise the javascript is told there was a mistake.
+    """
+    ret = {}
+    # Below is how we create a dictionary of the data sent from the input form
+    form_fields = dict((key, request.form.getlist(key)[0]) for key in list(request.form.keys()))
+    print(form_fields)
+
+    # query to see if user in the database
+    user_query = f"SELECT * FROM users where email=? and password=?"
+    result = db.select_query(user_query, (form_fields["email"], form_fields["password"]))
+    print(result)
+    print('blehhhhh')
+    result = result.fetchone() # get the first row
+    print(result)
+    if result is None:
+        # if email and password is not in the database then we add it then send failure indicator
+        ret["success"] = 0
+
+    # If email and password is in the database we log the user in
+    else:
+        session['email'] = form_fields["email"] # add the email to the users session
+        ret["success"] = 1
+    return ret
+
+@app.route('/logout')
+def logout():
+    """
+    Logs the current user out by poping their email from the current session
+    """
+    session.pop('email', default=None)
+    return redirect('/')
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -103,7 +195,7 @@ def success():
     """
     Renders the success page.
     """
-    return render_template("success.html")
+    return render_template("success.html", user=get_user())
 
 
 if __name__ == "__main__":

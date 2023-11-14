@@ -29,6 +29,12 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
+              {% if user == 'None' %}
+                  <a type="button" class="btn btn-outline-primary ms-auto" href="/login">Login</a>
+              {% else %}
+                  <div class = ms-auto>Welcome {{ user }}!</div>
+                  <a type="button" class="btn btn-outline-primary ms-auto" href="/logout">Logout</a>
+              {% endif %}
           </div>
         </nav>
         <!-- Below is for the main content of whatever specific page we are on, ie. login page, search page, etc -->
