@@ -81,21 +81,15 @@ def processSignup():
     ret = {}
     # Below is how we create a dictionary of the data sent from the input form
     form_fields = dict((key, request.form.getlist(key)[0]) for key in list(request.form.keys()))
-    print(form_fields)
-
     # query to see if user in the database already
     user_query = f"SELECT * FROM users where email=?"
     result = db.select_query(user_query, (form_fields["email"],))
-    print(result)
-    print('blehhhhh')
     result = result.fetchone() # get the first row
-    print(result)
     if result is None:
         # if email is not in the database then we add it
         add_user_query = f"INSERT INTO users (email, password) VALUES (?,?)"
         db.mutation_query(add_user_query, (form_fields["email"], form_fields["password"]))
         ret["success"] = 1  # send a success indicator back to the javascript side
-
     # If user is in database, then send a failure indicator
     else:
         ret["success"] = 0
@@ -112,15 +106,10 @@ def processLogin():
     ret = {}
     # Below is how we create a dictionary of the data sent from the input form
     form_fields = dict((key, request.form.getlist(key)[0]) for key in list(request.form.keys()))
-    print(form_fields)
-
     # query to see if user in the database
     user_query = f"SELECT * FROM users where email=? and password=?"
     result = db.select_query(user_query, (form_fields["email"], form_fields["password"]))
-    print(result)
-    print('blehhhhh')
     result = result.fetchone() # get the first row
-    print(result)
     if result is None:
         # if email and password is not in the database then we add it then send failure indicator
         ret["success"] = 0
