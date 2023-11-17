@@ -123,7 +123,7 @@ def processLogin():
 @app.route('/logout')
 def logout():
     """
-    Logs the current user out by poping their email from the current session
+    Logs the current user out by poping their email from current session
     """
     session.pop('email', default=None)
     return redirect('/')
