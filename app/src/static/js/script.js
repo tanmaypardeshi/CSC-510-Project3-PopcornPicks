@@ -125,23 +125,6 @@ console.log('hello')
     }
   });
 
-  // Function to handle Get Started button click
-  function getStarted() {
-    console.log("Made it to this function!")
-    // Navigate to the search page
-    $("#loaderLanding").attr("class", "d-flex justify-content-center");
-    $("#centralDivLanding").hide();
-    $('#landingTopNav').hide();
-    setTimeout(function() {
-      window.location.href = "/search_page"; // Replace with the actual URL of your search page
-    }, 2000);
-  }
-
-  // Bind the getStarted function to the Get Started button click
-  $("#getStartedButton").click(function () {
-    getStarted();
-  });
-
   var FeedbackData;
 
   $("#feedback").click(function () {

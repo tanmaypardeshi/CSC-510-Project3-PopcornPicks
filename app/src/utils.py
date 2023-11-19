@@ -1,10 +1,10 @@
+# pylint: disable=cyclic-import
 """
-Copyright (c) 2023 Aditya Pai, Ananya Mantravadi, Rishi Singhal, Samarth Shetty
+Copyright (c) 2023 Abhinav Sinha, Chandana Ray, Sam Kwiatkowski-Martin, Tanmay Pardeshi
 This code is licensed under MIT license (see LICENSE for details)
 
 @author: PopcornPicks
 """
-
 import logging
 import smtplib
 from smtplib import SMTPException
