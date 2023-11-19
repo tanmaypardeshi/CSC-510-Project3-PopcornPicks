@@ -1,3 +1,10 @@
+# pylint: disable=cyclic-import
+"""
+Copyright (c) 2023 Abhinav Sinha, Chandana Ray, Sam Kwiatkowski-Martin, Tanmay Pardeshi
+This code is licensed under MIT license (see LICENSE for details)
+
+@author: PopcornPicks
+"""
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -18,4 +25,5 @@ cors = CORS(app, resources={
     }
 })
 
-from recommenderapp import routes
+#pylint: disable=wrong-import-position
+from src import routes

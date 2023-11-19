@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023 Aditya Pai, Ananya Mantravadi, Rishi Singhal, Samarth Shetty
+Copyright (c) 2023 Abhinav Sinha, Chandana Ray, Sam Kwiatkowski-Martin, Tanmay Pardeshi
 This code is licensed under MIT license (see LICENSE for details)
 
 @author: PopcornPicks
@@ -10,7 +10,7 @@ import unittest
 import warnings
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-from src.recommenderapp.item_based import recommend_for_new_user
+from src.item_based import recommend_for_new_user
 warnings.filterwarnings("ignore")
 
 class Tests(unittest.TestCase):

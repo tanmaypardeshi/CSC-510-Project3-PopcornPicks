@@ -1,36 +1,35 @@
 """
-Copyright (c) 2023 Aditya Pai, Ananya Mantravadi, Rishi Singhal, Samarth Shetty
+Copyright (c) 2023 Abhinav Sinha, Chandana Ray, Sam Kwiatkowski-Martin, Tanmay Pardeshi
 This code is licensed under MIT license (see LICENSE for details)
 
 @author: PopcornPicks
 """
 
 import json
-import sys
 
-from flask import render_template, url_for, flash, redirect, request, session
-from flask_login import login_user, current_user, logout_user, login_required
-from recommenderapp import app, db, bcrypt
-from recommenderapp.search import Search
-from recommenderapp.utils import beautify_feedback_data, send_email_to_user
-from recommenderapp.item_based import recommend_for_new_user
-from recommenderapp.models import User
+from flask import render_template, url_for, redirect, request, jsonify
+from flask_login import login_user, current_user, logout_user
+from src import app, db, bcrypt
+from src.search import Search
+from src.utils import beautify_feedback_data, send_email_to_user
+from src.item_based import recommend_for_new_user
+from src.models import User
 
-"""
-    Renders the landing page with the user.
-"""
 @app.route("/", methods={"GET"})
 @app.route("/home", methods={"GET"})
 def landing_page():
+    """
+        Renders the landing page with the user.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('search_page'))
     return render_template("landing_page.html")
 
-"""
-    Login Page Flow 
-"""
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+        Login Page Flow 
+    """
     try:
         # If user has already logged in earlier and has an active session
         if current_user.is_authenticated:
@@ -53,16 +52,17 @@ def login():
         # When the login page is hit
         print("Hit")
         return render_template("login.html")
+    #pylint: disable=broad-except
     except Exception as e:
         print(f"Error is {e}")
         return render_template('login.html', message=e, show_message=True)
 
 
-"""
-    Signup Page Flow
-"""
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    """
+        Signup Page Flow
+    """
     username = ""
     try:
         # If user has already logged in earlier and has an active session
@@ -81,6 +81,7 @@ def signup():
         # For GET method
         return render_template('signup.html')
     # If user already exists
+    #pylint: disable=broad-except
     except Exception as e:
         print(f"Error is {e}")
         message = f"Username {username} already exists!"
@@ -88,12 +89,18 @@ def signup():
 
 @app.route("/search_page")
 def search_page():
+    """
+        Search Page after login
+    """
     if current_user.is_authenticated:
         return render_template("search_page.html", user=current_user)
     return redirect(url_for('landing_page'))
 
 @app.route('/logout')
 def logout():
+    """
+        Logout Function
+    """
     logout_user()
     return redirect('/')
 
@@ -118,7 +125,7 @@ def predict():
 @app.route("/search", methods=["POST"])
 def search():
     """
-    Handles movie search requests.
+        Handles movie search requests.
     """
     term = request.form["q"]
     finder = Search()
