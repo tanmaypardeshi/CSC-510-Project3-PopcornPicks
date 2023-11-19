@@ -22,7 +22,7 @@ jobs:
 
       - name: Run tests and generate coverage
         run: |
-          cd test
+          cd app
           coverage run --source=test -m pytest test/test_*.py
           coverage xml -i
 

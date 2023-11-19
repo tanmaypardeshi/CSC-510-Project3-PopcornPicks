@@ -19,9 +19,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Running test cases for predicting
-      run: python test/test_predict.py
+      run: |
+        cd app
+        python test/test_predict.py
     - name: Running test cases for searching
-      run: python test/test_search.py
+      run: |
+        cd app
+        python test/test_search.py
     - name: Running test cases for util
-      run: python test/test_util.py
+      run: |
+        cd app
+        python test/test_util.py
     
