@@ -1,5 +1,5 @@
 # <i> PopcornPicks🍿: Your Destination for Movie Recommendations </i>
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://gitHub.com/adipai/PopcornPicks/graphs/commit-activity) [![Contributors Activity](https://img.shields.io/github/commit-activity/m/adipai/PopcornPicks)](https://github.com/adipai/PopcornPicks/pulse) [![GitHub issues](https://img.shields.io/github/issues/adipai/PopcornPicks.svg)](https://github.com/adipai/PopcornPicks/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues-closed](https://img.shields.io/github/issues-closed/adipai/PopcornPicks.svg)](https://github.com/adipai/PopcornPicks/issues?q=is%3Aissue+is%3Aclosed) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/adipai/PopcornPicks) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4127507.svg)](https://doi.org/10.5281/zenodo.10023130) [![Unittest](https://github.com/adipai/PopcornPicks/actions/workflows/unittest.yml/badge.svg?branch=master&event=push)](https://github.com/adipai/PopcornPicks/actions/workflows/unittest.yml) [![codecov](https://codecov.io/gh/adipai/PopcornPicks/graph/badge.svg?token=0XN6K2DMGS)](https://codecov.io/gh/adipai/PopcornPicks) [![GitHub release](https://img.shields.io/github/release/adipai/PopcornPicks.svg)](https://GitHub.com/adipai/PopcornPicksreleases/) [![StyleCheck: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) [![HitCount](https://hits.dwyl.com/adipai/PopcornPicks.svg)](https://hits.dwyl.com/adipai/PopcornPicks) ![GitHub contributors](https://img.shields.io/github/contributors/adipai/PopcornPicks) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/adipai/PopcornPicks) ![GitHub repo size](https://img.shields.io/github/repo-size/adipai/PopcornPicks)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://gitHub.com/tanmaypardeshi/PopcornPicks/graphs/commit-activity) [![Contributors Activity](https://img.shields.io/github/commit-activity/m/tanmaypardeshi/PopcornPicks)](https://github.com/tanmaypardeshi/PopcornPicks/pulse) [![GitHub issues](https://img.shields.io/github/issues/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues-closed](https://img.shields.io/github/issues-closed/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aissue+is%3Aclosed) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/tanmaypardeshi/PopcornPicks) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4127507.svg)](https://doi.org/10.5281/zenodo.10023130) [![Unittest](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml/badge.svg?branch=master&event=push)](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml) [![codecov](https://codecov.io/gh/tanmaypardeshi/PopcornPicks/graph/badge.svg?token=0XN6K2DMGS)](https://codecov.io/gh/tanmaypardeshi/PopcornPicks) [![GitHub release](https://img.shields.io/github/release/tanmaypardeshi/PopcornPicks.svg)](https://GitHub.com/tanmaypardeshi/PopcornPicksreleases/) [![StyleCheck: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) [![HitCount](https://hits.dwyl.com/tanmaypardeshi/PopcornPicks.svg)](https://hits.dwyl.com/adipai/PopcornPicks) ![GitHub contributors](https://img.shields.io/github/contributors/adipai/PopcornPicks) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/adipai/PopcornPicks) ![GitHub repo size](https://img.shields.io/github/repo-size/adipai/PopcornPicks)
   
 
   
@@ -96,16 +96,16 @@ Check out the significant changes that we made for Project 2 [here](https://gith
  Step 1: 
   Git Clone the Repository 
   
-    git clone https://github.com/adipai/PopcornPicks.git
+    git clone https://github.com/tanmaypardeshi/PopcornPicks.git
     
   (OR) Download the .zip file on your local machine from the following link
   
-    https://github.com/adipai/PopcornPicks
+    https://github.com/tanmaypardeshi/PopcornPicks
   
  Step 2:
    Follow the setup instructions in the wiki documentation
    
-    https://github.com/adipai/PopcornPicks/wiki/Installation-and-setup
+    https://github.com/tanmaypardeshi/PopcornPicks/wiki/Installation-and-setup
     
     
 <b>Finally, start enjoying personalized movie recommendations!</b>
@@ -126,13 +126,13 @@ The future of PopcornPicks is full of potential, and we invite developers, movie
 
 ## Contribute to the Project!
 
-Please refer to the [CONTRIBUTING.md](https://github.com/adipai/PopcornPicks/blob/master/CONTRIBUTING.md) if you want to contribute to the PopcornPicks source code. Follow all the guidelines mentioned in the same and raise a pull request, we would love to look at it ❤️❤️!
+Please refer to the [CONTRIBUTING.md](https://github.com/tanmaypardeshi/PopcornPicks/blob/master/CONTRIBUTING.md) if you want to contribute to the PopcornPicks source code. Follow all the guidelines mentioned in the same and raise a pull request, we would love to look at it ❤️❤️!
 
 ## Contributors
-[Aditya Pai Brahmavar](https://www.linkedin.com/in/adityapai16/)<br/>
-[Ananya Mantravadi](https://www.linkedin.com/in/ananya-mantravadi/)<br/>
-[Rishi Singhal](https://www.linkedin.com/in/rishi-singhal1101/)<br/>
-[Samarth Shetty](https://www.linkedin.com/in/samarthshetty09/)<br/>
+[Tanmay Pardeshi](https://github.com/tanmaypardeshi)<br>
+[Chandana Ray](https://github.com/cray94)<br>
+[Abhinav Sinha](https://github.com/abhinav110595)<br>
+[Sam Kwiatkowski-Martin](https://github.com/ExtremeMachine12)<br>
 
 ## Contact
 In case of any issues, please e-mail your queries to popcornpicks504@gmail.com or raise an issue on this repository.
