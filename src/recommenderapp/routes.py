@@ -88,10 +88,9 @@ def signup():
 
 @app.route("/search_page")
 def search_page():
-    """
-    Renders the search page.
-    """
-    return render_template("search_page.html", user=current_user)
+    if current_user.is_authenticated:
+        return render_template("search_page.html", user=current_user)
+    return redirect(url_for('landing_page'))
 
 @app.route('/logout')
 def logout():
