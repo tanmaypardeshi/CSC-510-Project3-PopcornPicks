@@ -11,10 +11,8 @@ import warnings
 from pathlib import Path
 import pandas as pd
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-#pylint: disable=wrong-import-position
 from src.recommenderapp.utils import create_colored_tags, \
     beautify_feedback_data, create_movie_genres, send_email_to_user
-#pylint: enable=wrong-import-position
 
 warnings.filterwarnings("ignore")
 

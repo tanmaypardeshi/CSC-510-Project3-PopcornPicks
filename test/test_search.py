@@ -12,9 +12,7 @@ import unittest
 import warnings
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-#pylint: disable=wrong-import-position
 from src.recommenderapp.search import Search
-#pylint: enable=wrong-import-position
 
 warnings.filterwarnings("ignore")
 

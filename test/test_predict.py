@@ -10,9 +10,7 @@ import unittest
 import warnings
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-#pylint: disable=wrong-import-position
-from src.prediction_scripts.item_based import recommend_for_new_user
-#pylint: enable=wrong-import-position
+from src.recommenderapp.item_based import recommend_for_new_user
 warnings.filterwarnings("ignore")
 
 class Tests(unittest.TestCase):
