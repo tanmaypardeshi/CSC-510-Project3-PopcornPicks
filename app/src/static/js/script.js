@@ -1,11 +1,10 @@
 $(document).ready(function () {
-console.log('hello')
   $(function () {
     $("#searchBox").autocomplete({
       source: function (request, response) {
         $.ajax({
           type: "POST",
-          url: "http://localhost:5000/search",
+          url: "http://localhost:8000/search",
           dataType: "json",
           cache: false,
           data: {
