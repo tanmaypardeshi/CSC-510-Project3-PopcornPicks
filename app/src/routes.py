@@ -8,7 +8,7 @@ This code is licensed under MIT license (see LICENSE for details)
 import json
 
 from flask import render_template, url_for, redirect, request, jsonify
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from src import app, db, bcrypt
 from src.search import Search
 from src.utils import beautify_feedback_data, send_email_to_user
@@ -87,22 +87,15 @@ def signup():
         message = f"Username {username} already exists!"
         return render_template('signup.html', message=message, show_message=True)
 
-@app.route("/search_page")
-def search_page():
-    """
-        Search Page after login
-    """
-    if current_user.is_authenticated:
-        return render_template("search_page.html", user=current_user)
-    return redirect(url_for('landing_page'))
+@app.route("/profile_page", methods=["GET"])
+@login_required
+def profile_page():
+    return render_template("profile.html", user=current_user, search=False)
 
-@app.route('/logout')
-def logout():
-    """
-        Logout Function
-    """
-    logout_user()
-    return redirect('/')
+@app.route("/search_page")
+@login_required
+def search_page():
+    return render_template("search.html", user=current_user, search=True)
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -121,7 +114,6 @@ def predict():
     resp = {"recommendations": recommendations, "genres": genres, "imdb_id":imdb_id}
     return resp
 
-
 @app.route("/search", methods=["POST"])
 def search():
     """
@@ -134,7 +126,6 @@ def search():
     resp.status_code = 200
     return resp
 
-
 @app.route("/feedback", methods=["POST"])
 def feedback():
     """
@@ -142,7 +133,6 @@ def feedback():
     """
     data = json.loads(request.data)
     return data
-
 
 @app.route("/sendMail", methods=["POST"])
 def send_mail():
@@ -154,13 +144,20 @@ def send_mail():
     send_email_to_user(user_email, beautify_feedback_data(data))
     return data
 
-
 @app.route("/success")
 def success():
     """
     Renders the success page.
     """
     return render_template("success.html", user=current_user)
+
+@app.route('/logout')
+def logout():
+    """
+        Logout Function
+    """
+    logout_user()
+    return redirect('/')
 
 
 if __name__ == "__main__":

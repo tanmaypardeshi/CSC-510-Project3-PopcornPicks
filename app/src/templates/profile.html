@@ -1,0 +1,36 @@
+{% extends 'shared/layout.html' %}
+
+{% block extracss %}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static', filename='css/profile.css') }}"
+  />
+{% endblock %}
+
+{% block maincontent %}
+<div class="container">
+  <div class="col-md-12" style="display: flex; justify-content: center;">
+    <!-- Main Heading -->
+    <h1>{{user}}'s Profile Page</h1>
+  </div>
+  <div class="row" style="margin-top: 25px;">
+    <div class="col-md-6">
+      <div class="card profile-card">
+        <div class="card-header">
+          <h2 class="profile-title">User Details</h2>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Username: {{user.username}} </li>
+            <li class="list-group-item">Email: {{user.email}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5"></div>
+  </div>
+</div>
+</body>
+{% endblock %}
