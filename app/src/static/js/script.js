@@ -4,7 +4,7 @@ $(document).ready(function () {
       source: function (request, response) {
         $.ajax({
           type: "POST",
-          url: "http://localhost:8000/search",
+          url: "/search",
           dataType: "json",
           cache: false,
           data: {
