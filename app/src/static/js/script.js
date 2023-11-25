@@ -70,6 +70,8 @@ $(document).ready(function () {
         var i = 0;
         var recommendations = response["recommendations"];
         var imdbIds = response["imdb_id"]
+        var title = $("<br><br><h2>Recommended Movies</h2>");
+        $("#recommended_block").append(title);
         for (var i = 0; i < recommendations.length; i++) {
           var element = recommendations[i];
           var imdbID = imdbIds[i]
@@ -77,35 +79,11 @@ $(document).ready(function () {
           var fieldset = $("<fieldset/>", { id: i }).css("border", "0");
           var link = $("<a/>").text("IMDb🔗").css({"text-decoration": "none"}).attr("href", "https://www.imdb.com/title/" + imdbID);
           var li = $("<li/>").text(element);
-          var radios = $(`
-                    <table class='table predictTable'>
-                      <tr>
-                        <td class='radio-inline'>
-                          <section id="pattern1">
-                            <label style="--icon:'😍"><input type="radio" name="${i}" value='3' data-toggle="tooltip" data-placement="top" title="LIKE"></label><br />
-                          </section>
-                        </td>
-                        <td class='radio-inline'>
-                          <section id="pattern1">
-                            <label style="--icon:'😐'"><input type="radio" name="${i}" value='2' data-toggle="tooltip" data-placement="top" title="YET TO WATCH"></label><br />
-                          </section>
-                        </td>
-                        <td class='radio-inline'>
-                          <section id="pattern1">
-                            <label style="--icon:'😤'"><input type="radio" name="${i}" value='1' data-toggle="tooltip" data-placement="top" title="DISLIKE"></label><br />
-                          </section>
-                        </td>
-                      </tr>
-                    </table>
-                  `);
-
           diventry.append(li);
           diventry.append(link);
-          diventry.append(radios);
           fieldset.append(diventry);
           ulList.append(fieldset);
         }
-
         $("#loader").attr("class", "d-none");
       },
       error: function (error) {

@@ -42,15 +42,12 @@ def login():
             # Successful Login
             if user and bcrypt.check_password_hash(user.password, password):
                 login_user(user)
-                print("Logged in")
                 return redirect(url_for('search_page'))
             # Invalid Credentials
             show_message = True
             message = "Invalid Credentials! Try again!"
-            print(message)
             return render_template("login.html", message=message, show_message=show_message)
         # When the login page is hit
-        print("Hit")
         return render_template("login.html")
     #pylint: disable=broad-except
     except Exception as e:
@@ -71,13 +68,17 @@ def signup():
         # If user has not logged in and a signup request is sent by the user
         if request.method == "POST":
             username = request.form['username']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
             email = request.form['email']
             password = request.form['password']
             hashed_password = bcrypt.generate_password_hash(password)
-            user = User(username=username, email=email, password=hashed_password)
+            user = User(username=username, email=email, first_name=first_name, 
+                        last_name=last_name, password=hashed_password)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('login'))
+            login_user(user)
+            return redirect(url_for('landing_page'))
         # For GET method
         return render_template('signup.html')
     # If user already exists
