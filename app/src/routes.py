@@ -9,7 +9,8 @@ import json
 
 from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user
-from src import app, db, bcrypt
+from flask_socketio import SocketIO
+from src import app, db, bcrypt, socket
 from src.search import Search
 from src.utils import beautify_feedback_data, send_email_to_user
 from src.item_based import recommend_for_new_user
@@ -95,6 +96,19 @@ def search_page():
     if current_user.is_authenticated:
         return render_template("search_page.html", user=current_user)
     return redirect(url_for('landing_page'))
+
+@app.route("/chat")
+def chat_page():
+    """
+        Renders chat room page
+    """
+    if current_user.is_authenticated:
+        return render_template("movie_chat.html", user=current_user)
+    return redirect(url_for('landing_page'))
+
+@socket.on('connections')
+def handle_message(data):
+    print('received message: ' + data)
 
 @app.route('/logout')
 def logout():
