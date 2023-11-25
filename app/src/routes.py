@@ -6,7 +6,7 @@ This code is licensed under MIT license (see LICENSE for details)
 """
 
 import json
-
+import pandas as pd
 from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from src import app, db, bcrypt
@@ -110,10 +110,10 @@ def predict():
         movie_with_rating = {"title": movie, "rating": 5.0}
         if movie_with_rating not in training_data:
             training_data.append(movie_with_rating)
-    recommendations, genres, imdb_id = recommend_for_new_user(training_data)
-    recommendations, genres, imdb_id = recommendations[:10], genres[:10], imdb_id[:10]
-    resp = {"recommendations": recommendations, "genres": genres, "imdb_id":imdb_id}
-    return resp
+    data = recommend_for_new_user(training_data)
+    data = data.drop(columns=["movieId", "poster_path"])
+    data = data.to_json(orient="records")
+    return jsonify(data)
 
 @app.route("/search", methods=["POST"])
 def search():

@@ -50,7 +50,4 @@ def recommend_for_new_user(user_rating):
     join_movies_and_recommendations.sort_values(
         by="recommended", ascending=False, inplace=True
     )
-
-    return list(join_movies_and_recommendations["title"][:201]), \
-        list(join_movies_and_recommendations["genres"][:201]), \
-            list(join_movies_and_recommendations["imdb_id"][:201])
+    return join_movies_and_recommendations[:9]
