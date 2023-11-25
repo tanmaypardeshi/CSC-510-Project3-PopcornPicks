@@ -67,6 +67,7 @@ $(document).ready(function () {
       data: JSON.stringify(movies),
       success: function (response) {
         var data = JSON.parse(response);
+        console.log(data);
         var list = $("#predictedMovies");
         var title = $("<br><br><h2>Recommended Movies</h2>");
         $("#recommended_block").append(title);

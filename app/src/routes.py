@@ -111,7 +111,7 @@ def predict():
         if movie_with_rating not in training_data:
             training_data.append(movie_with_rating)
     data = recommend_for_new_user(training_data)
-    data = data.drop(columns=["movieId", "poster_path"])
+    data = data.drop(columns=["poster_path", ])
     data = data.to_json(orient="records")
     return jsonify(data)
 
