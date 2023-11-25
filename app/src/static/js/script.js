@@ -78,7 +78,7 @@ $(document).ready(function () {
               <h5 class="card-title">${data[i].title}</h5>
               <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
               <p class="card-text">${data[i].overview}</p>
-              <a href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
+              <a target="_blank" href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
             </div>
             <div class="card-footer text-muted">Genres : ${data[i].genres}</div>
           </div>`
