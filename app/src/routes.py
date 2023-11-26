@@ -6,7 +6,6 @@ This code is licensed under MIT license (see LICENSE for details)
 """
 
 import json
-import pandas as pd
 from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from src import app, db, bcrypt
@@ -33,7 +32,7 @@ def login():
     try:
         # If user has already logged in earlier and has an active session
         if current_user.is_authenticated:
-            return redirect(url_for('home'))
+            return redirect(url_for('search_page'))
         # If user has not logged in and a login request is sent by the user
         if request.method == "POST":
             username = request.form["username"]
@@ -64,7 +63,7 @@ def signup():
     try:
         # If user has already logged in earlier and has an active session
         if current_user.is_authenticated:
-            return redirect(url_for('home'))
+            return redirect(url_for('search_page'))
         # If user has not logged in and a signup request is sent by the user
         if request.method == "POST":
             username = request.form['username']
@@ -73,12 +72,12 @@ def signup():
             email = request.form['email']
             password = request.form['password']
             hashed_password = bcrypt.generate_password_hash(password)
-            user = User(username=username, email=email, first_name=first_name, 
+            user = User(username=username, email=email, first_name=first_name,
                         last_name=last_name, password=hashed_password)
             db.session.add(user)
             db.session.commit()
             login_user(user)
-            return redirect(url_for('landing_page'))
+            return redirect(url_for('search_page'))
         # For GET method
         return render_template('signup.html')
     # If user already exists
@@ -91,11 +90,17 @@ def signup():
 @app.route("/profile_page", methods=["GET"])
 @login_required
 def profile_page():
+    """
+        Profile Page
+    """
     return render_template("profile.html", user=current_user, search=False)
 
 @app.route("/search_page")
 @login_required
 def search_page():
+    """
+        Search Page
+    """
     return render_template("search.html", user=current_user, search=True)
 
 @app.route("/predict", methods=["POST"])
