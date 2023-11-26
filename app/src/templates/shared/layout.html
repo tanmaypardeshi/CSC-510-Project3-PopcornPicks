@@ -70,19 +70,14 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         {% if current_user.is_authenticated %}
-<<<<<<< HEAD
           <div class="ms-auto">Welcome {{ user }}!</div>
+          <a type="button" class="btn btn-success ms-auto" href="{{ url_for('chat_page') }}">Chat Room</a>
           {% if search is true %}
-            <a type="button" class="btn btn-primary ms-auto" href="{{url_for('profile_page') }}">Profile</a>
+            <a type="button" class="btn btn-primary ms-2" href="{{url_for('profile_page') }}">Profile</a>
           {% else %}
-            <a type="button" class="btn btn-primary ms-auto" href="{{url_for('search_page') }}">Search Page</a>  
-          {% endif %}
-            <a type="button" class="btn btn-outline-primary ms-2" href="{{ url_for('logout') }}">Logout</a>
-=======
-        <div class="ms-auto">Welcome {{ user }}!</div>
-          <a type="button" class="btn btn-outline-success ms-1" href="{{ url_for('chat_page') }}">Chat Room</a>
+            <a type="button" class="btn btn-primary ms-2" href="{{url_for('search_page') }}">Search Page</a>  
+          {% endif %}          
           <a type="button" class="btn btn-outline-primary ms-2" href="{{ url_for('logout') }}">Logout</a>
->>>>>>> c6218002f2e9851bde91ba341f92bf5feb36201e
         {% else %}
           <a type="button" class="btn btn-outline-primary ms-auto" href="{{ url_for('signup') }}">Sign Up</a>
           <a type="button" class="btn btn-outline-primary ms-2" href="{{ url_for('login') }}">Login</a>

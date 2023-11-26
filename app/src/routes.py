@@ -23,7 +23,7 @@ def landing_page():
     """
     if current_user.is_authenticated:
         return redirect(url_for('search_page'))
-    return render_template("landing_page.html")
+    return render_template("search.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -103,7 +103,7 @@ def search_page():
         Search Page
     """
     if current_user.is_authenticated:
-        return render_template("search_page.html", user=current_user)
+        return render_template("search.html", user=current_user, search=True)
     return redirect(url_for('landing_page'))
 
 @app.route("/chat")
