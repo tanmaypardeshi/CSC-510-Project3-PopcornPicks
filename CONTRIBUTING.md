@@ -29,7 +29,7 @@
       - stylesheet.css
     - templates
       - landing_page.html
-      - search_page.html
+      -search.html
       - success.html
     - app.py
     - search.py

@@ -6,9 +6,8 @@ This code is licensed under MIT license (see LICENSE for details)
 """
 
 import json
-
 from flask import render_template, url_for, redirect, request, jsonify
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from flask_socketio import emit
 from src import app, db, bcrypt, socket
 from src.search import Search
@@ -24,7 +23,7 @@ def landing_page():
     """
     if current_user.is_authenticated:
         return redirect(url_for('search_page'))
-    return render_template("landing_page.html")
+    return render_template("search.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -34,7 +33,7 @@ def login():
     try:
         # If user has already logged in earlier and has an active session
         if current_user.is_authenticated:
-            return redirect(url_for('home'))
+            return redirect(url_for('search_page'))
         # If user has not logged in and a login request is sent by the user
         if request.method == "POST":
             username = request.form["username"]
@@ -43,15 +42,12 @@ def login():
             # Successful Login
             if user and bcrypt.check_password_hash(user.password, password):
                 login_user(user)
-                print("Logged in")
                 return redirect(url_for('search_page'))
             # Invalid Credentials
             show_message = True
             message = "Invalid Credentials! Try again!"
-            print(message)
             return render_template("login.html", message=message, show_message=show_message)
         # When the login page is hit
-        print("Hit")
         return render_template("login.html")
     #pylint: disable=broad-except
     except Exception as e:
@@ -68,17 +64,21 @@ def signup():
     try:
         # If user has already logged in earlier and has an active session
         if current_user.is_authenticated:
-            return redirect(url_for('home'))
+            return redirect(url_for('search_page'))
         # If user has not logged in and a signup request is sent by the user
         if request.method == "POST":
             username = request.form['username']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
             email = request.form['email']
             password = request.form['password']
             hashed_password = bcrypt.generate_password_hash(password)
-            user = User(username=username, email=email, password=hashed_password)
+            user = User(username=username, email=email, first_name=first_name,
+                        last_name=last_name, password=hashed_password)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('login'))
+            login_user(user)
+            return redirect(url_for('search_page'))
         # For GET method
         return render_template('signup.html')
     # If user already exists
@@ -88,13 +88,22 @@ def signup():
         message = f"Username {username} already exists!"
         return render_template('signup.html', message=message, show_message=True)
 
+@app.route("/profile_page", methods=["GET"])
+@login_required
+def profile_page():
+    """
+        Profile Page
+    """
+    return render_template("profile.html", user=current_user, search=False)
+
 @app.route("/search_page")
+@login_required
 def search_page():
     """
-        Search Page after login
+        Search Page
     """
     if current_user.is_authenticated:
-        return render_template("search_page.html", user=current_user)
+        return render_template("search.html", user=current_user, search=True)
     return redirect(url_for('landing_page'))
 
 @app.route("/chat")
@@ -120,14 +129,6 @@ def broadcast_message(data):
     """
     emit('message', {'username': data['username'], 'msg': data['msg']}, broadcast=True)
 
-@app.route('/logout')
-def logout():
-    """
-        Logout Function
-    """
-    logout_user()
-    return redirect('/')
-
 @app.route("/predict", methods=["POST"])
 def predict():
     """
@@ -140,11 +141,10 @@ def predict():
         movie_with_rating = {"title": movie, "rating": 5.0}
         if movie_with_rating not in training_data:
             training_data.append(movie_with_rating)
-    recommendations, genres, imdb_id = recommend_for_new_user(training_data)
-    recommendations, genres, imdb_id = recommendations[:10], genres[:10], imdb_id[:10]
-    resp = {"recommendations": recommendations, "genres": genres, "imdb_id":imdb_id}
-    return resp
-
+    data = recommend_for_new_user(training_data)
+    data = data.drop(columns=["poster_path", ])
+    data = data.to_json(orient="records")
+    return jsonify(data)
 
 @app.route("/search", methods=["POST"])
 def search():
@@ -158,7 +158,6 @@ def search():
     resp.status_code = 200
     return resp
 
-
 @app.route("/feedback", methods=["POST"])
 def feedback():
     """
@@ -166,7 +165,6 @@ def feedback():
     """
     data = json.loads(request.data)
     return data
-
 
 @app.route("/sendMail", methods=["POST"])
 def send_mail():
@@ -178,13 +176,20 @@ def send_mail():
     send_email_to_user(user_email, beautify_feedback_data(data))
     return data
 
-
 @app.route("/success")
 def success():
     """
     Renders the success page.
     """
     return render_template("success.html", user=current_user)
+
+@app.route('/logout')
+def logout():
+    """
+        Logout Function
+    """
+    logout_user()
+    return redirect('/')
 
 
 if __name__ == "__main__":

@@ -66,46 +66,26 @@ $(document).ready(function () {
       cache: false,
       data: JSON.stringify(movies),
       success: function (response) {
-        var ulList = $("#predictedMovies");
-        var i = 0;
-        var recommendations = response["recommendations"];
-        var imdbIds = response["imdb_id"]
-        for (var i = 0; i < recommendations.length; i++) {
-          var element = recommendations[i];
-          var imdbID = imdbIds[i]
-          var diventry = $("<div/>");
-          var fieldset = $("<fieldset/>", { id: i }).css("border", "0");
-          var link = $("<a/>").text("IMDb🔗").css({"text-decoration": "none"}).attr("href", "https://www.imdb.com/title/" + imdbID);
-          var li = $("<li/>").text(element);
-          var radios = $(`
-                    <table class='table predictTable'>
-                      <tr>
-                        <td class='radio-inline'>
-                          <section id="pattern1">
-                            <label style="--icon:'😍"><input type="radio" name="${i}" value='3' data-toggle="tooltip" data-placement="top" title="LIKE"></label><br />
-                          </section>
-                        </td>
-                        <td class='radio-inline'>
-                          <section id="pattern1">
-                            <label style="--icon:'😐'"><input type="radio" name="${i}" value='2' data-toggle="tooltip" data-placement="top" title="YET TO WATCH"></label><br />
-                          </section>
-                        </td>
-                        <td class='radio-inline'>
-                          <section id="pattern1">
-                            <label style="--icon:'😤'"><input type="radio" name="${i}" value='1' data-toggle="tooltip" data-placement="top" title="DISLIKE"></label><br />
-                          </section>
-                        </td>
-                      </tr>
-                    </table>
-                  `);
-
-          diventry.append(li);
-          diventry.append(link);
-          diventry.append(radios);
-          fieldset.append(diventry);
-          ulList.append(fieldset);
+        var data = JSON.parse(response);
+        console.log(data);
+        var list = $("#predictedMovies");
+        var title = $("<br><br><h2>Recommended Movies</h2>");
+        $("#recommended_block").append(title);
+        
+        for (var i = 0; i < data.length; i++) {
+          var column = $('<div class="col-sm-12"></div>');
+          var card = `<div class="card movie-card">
+            <div class="card-body">
+              <h5 class="card-title">${data[i].title}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
+              <p class="card-text">${data[i].overview}</p>
+              <a target="_blank" href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
+            </div>
+            <div class="card-footer text-muted">Genres : ${data[i].genres}</div>
+          </div>`
+          column.append(card);
+          list.append(column);
         }
-
         $("#loader").attr("class", "d-none");
       },
       error: function (error) {
