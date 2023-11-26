@@ -1,4 +1,5 @@
-from src import app
+from src import app, socket
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    socket.run(app=app, debug=True, port=8000, allow_unsafe_werkzeug=True)
+    #app.run(debug=True, port=8000)

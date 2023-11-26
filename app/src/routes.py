@@ -7,8 +7,9 @@ This code is licensed under MIT license (see LICENSE for details)
 
 import json
 from flask import render_template, url_for, redirect, request, jsonify
-from flask_login import login_user, current_user, logout_user, login_required
-from src import app, db, bcrypt
+from flask_login import login_user, current_user, logout_user
+from flask_socketio import emit
+from src import app, db, bcrypt, socket
 from src.search import Search
 from src.utils import beautify_feedback_data, send_email_to_user
 from src.item_based import recommend_for_new_user
@@ -101,7 +102,40 @@ def search_page():
     """
         Search Page
     """
-    return render_template("search.html", user=current_user, search=True)
+    if current_user.is_authenticated:
+        return render_template("search_page.html", user=current_user)
+    return redirect(url_for('landing_page'))
+
+@app.route("/chat")
+def chat_page():
+    """
+        Renders chat room page
+    """
+    if current_user.is_authenticated:
+        return render_template("movie_chat.html", user=current_user)
+    return redirect(url_for('landing_page'))
+
+@socket.on('connections')
+def show_connection(data):
+    """
+        Prints out if the connection to the chat page is successful
+    """
+    print('received message: ' + data)
+
+@socket.on('message')
+def broadcast_message(data):
+    """
+        Distributes messages sent to the server to all clients in real time
+    """
+    emit('message', {'username': data['username'], 'msg': data['msg']}, broadcast=True)
+
+@app.route('/logout')
+def logout():
+    """
+        Logout Function
+    """
+    logout_user()
+    return redirect('/')
 
 @app.route("/predict", methods=["POST"])
 def predict():
