@@ -7,7 +7,7 @@ This code is licensed under MIT license (see LICENSE for details)
 
 import json
 from flask import render_template, url_for, redirect, request, jsonify
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from flask_socketio import emit
 from src import app, db, bcrypt, socket
 from src.search import Search
@@ -128,14 +128,6 @@ def broadcast_message(data):
         Distributes messages sent to the server to all clients in real time
     """
     emit('message', {'username': data['username'], 'msg': data['msg']}, broadcast=True)
-
-@app.route('/logout')
-def logout():
-    """
-        Logout Function
-    """
-    logout_user()
-    return redirect('/')
 
 @app.route("/predict", methods=["POST"])
 def predict():
