@@ -9,8 +9,7 @@ import json
 
 from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user
-from flask_socketio import SocketIO
-from flask_socketio import send, emit
+from flask_socketio import emit
 from src import app, db, bcrypt, socket
 from src.search import Search
 from src.utils import beautify_feedback_data, send_email_to_user
