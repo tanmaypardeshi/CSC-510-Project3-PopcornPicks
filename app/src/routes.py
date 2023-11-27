@@ -325,9 +325,13 @@ def new_movies():
     try:
     # Make the request to TMDb API
         response = requests.get(endpoint, params=params, timeout=10)
-    except:
+    except (requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout,
+            requests.exceptions.RequestException
+            ) as e:
         return render_template('new_movies.html', show_message=True,
-                           message='Error fetching movie data')
+                           message=e)
     if response.status_code == 200:
         # Parse the JSON response
         movie_data = response.json().get('results', [])
@@ -338,5 +342,4 @@ def new_movies():
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
-    app.run(debug=True)
+    app.run(port=5000, debug=True)
