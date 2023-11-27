@@ -43,9 +43,10 @@
         {%
           set imdb_link = "https://www.imdb.com/title/" + review.imdb_id
         %}
-        {%
-          set poster_path = "fetchPosterURL(" + review.imdb_id + ")"
+        <!-- {%
+          set poster_path = 'fetchPosterURL("' + review.imdb_id + '")'
         %}
+        {{ poster_path }} -->
         <div class="col-sm-12">
           <div class="card movie-card">
             <div class="row no-gutters">
@@ -56,7 +57,7 @@
                   <p class="card-text"><strong>Movie Overview : </strong> {{review.overview}}</p>
                   <p class="card-text"><strong>Your Review : </strong>{{review.review_text}}</p>
                   <a target="_blank" href="{{ my_string }}" class="btn btn-primary">Check out IMDb Link</a>
-                </div>
+                </div>                
               </div>
               <!-- <div class="col-md-4">
                 <img src="{{poster_path}}" alt="Movie Poster" class="poster-image" style="width: 75%; height: auto; margin: 0;">
