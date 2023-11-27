@@ -230,7 +230,9 @@ def logout():
 
 @app.route('/new_movies')
 def new_movies():
-    # Replace YOUR_TMDB_API_KEY with your actual TMDb API key
+    '''
+    new movies tab 
+    '''
     tmdb_api_key = TMDB_API_KEY
     endpoint = 'https://api.themoviedb.org/3/movie/upcoming'
 
@@ -242,19 +244,19 @@ def new_movies():
     }
 
     # Make the request to TMDb API
-    response = requests.get(endpoint, params=params)
+    response = requests.get(endpoint, params=params, timeout=100)
 
     if response.status_code == 200:
         # Parse the JSON response
         movie_data = response.json().get('results', [])
 
         return render_template('new_movies.html', movies=movie_data)
-    else:
+    #else:
         # Handle API request error
-        return render_template('error.html', message='Error fetching movie data')
+    return render_template('error.html', message='Error fetching movie data')
 
 
 if __name__ == "__main__":
     app.run(port=5000)
     app.run(debug=True)
-
+    
