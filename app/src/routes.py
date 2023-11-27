@@ -307,7 +307,7 @@ def logout():
     logout_user()
     return redirect('/')
 
-@app.route('/new_movies')
+@app.route('/new_movies', methods=["GET"])
 def new_movies():
     """
         API to fetch new movies
@@ -322,10 +322,12 @@ def new_movies():
         'language': 'en-US',  # You can adjust the language as needed
         'page': 1  # You may want to paginate the results if there are many
     }
-
+    try:
     # Make the request to TMDb API
-    response = requests.get(endpoint, params=params, timeout=10)
-
+        response = requests.get(endpoint, params=params, timeout=10)
+    except:
+        return render_template('new_movies.html', show_message=True,
+                           message='Error fetching movie data')
     if response.status_code == 200:
         # Parse the JSON response
         movie_data = response.json().get('results', [])
