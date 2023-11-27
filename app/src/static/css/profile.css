@@ -17,3 +17,8 @@ margin: 0;
 .profile-title {
     color: black;
 }
+
+.movie-card {
+  color: black;
+  margin: 1%;
+}
