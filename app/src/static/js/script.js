@@ -57,6 +57,47 @@ $(document).ready(function () {
       alert("Select atleast 1 movie!!");
     }
 
+    //fetching poster using /getposterurl
+
+    function fetchPosterURL(imdbID) {
+      var posterURL = null;
+      $.ajax({
+          type: "GET",
+          url: "/getPosterURL", 
+          dataType: "json",
+          data: { imdbID: imdbID },
+          async: false, 
+          success: function (response) {
+              posterURL = response.posterURL;
+          },
+          error: function (error) {
+              console.log("Error fetching poster URL: " + error);
+          },
+      });
+  
+      return posterURL;
+    };
+    // poster and reviews feature
+
+    // function fetchPosterAndReviews(imdbID) {
+    //   var details = null;
+    //   $.ajax({
+    //       type: "GET",
+    //       url: "/getPosterAndReviews",
+    //       dataType: "json",
+    //       data: { imdbID: imdbID },
+    //       async: false,
+    //       success: function (response) {
+    //           details = response;
+    //       },
+    //       error: function (error) {
+    //           console.log("Error fetching poster and reviews: " + error);
+    //       },
+    //   });
+  
+    //   return details;
+    // }  
+
     $.ajax({
       type: "POST",
       url: "/predict",
@@ -71,18 +112,24 @@ $(document).ready(function () {
         var list = $("#predictedMovies");
         var title = $("<br><br><h2>Recommended Movies</h2>");
         $("#recommended_block").append(title);
-        
         for (var i = 0; i < data.length; i++) {
           var column = $('<div class="col-sm-12"></div>');
           var card = `<div class="card movie-card">
-            <div class="card-body">
-              <h5 class="card-title">${data[i].title}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
-              <p class="card-text">${data[i].overview}</p>
-              <a target="_blank" href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
-            </div>
-            <div class="card-footer text-muted">Genres : ${data[i].genres}</div>
-          </div>`
+              <div class="row no-gutters">
+                  <div class="col-md-8">
+                      <div class="card-body">
+                          <h5 class="card-title">${data[i].title}</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
+                          <p class="card-text">${data[i].overview}</p>
+                      </div>
+                      <div class="card-footer text-muted" style="position: absolute; bottom: 0; left: 0; width: auto;">Genres: ${data[i].genres}</div>
+                      <a target="_blank" href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary" style="position: absolute; bottom: 50px; left: 0;">Check out IMDb Link</a>
+                  </div>
+                  <div class="col-md-4">
+                      <img src="${fetchPosterURL(data[i].imdb_id)}" alt="Movie Poster" class="poster-image" style="width: 75%; height: auto; margin: 0;">
+                  </div>
+              </div>
+          </div>`;
           column.append(card);
           list.append(column);
         }
