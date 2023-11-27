@@ -140,10 +140,6 @@ Please refer to the [CONTRIBUTING.md](https://github.com/tanmaypardeshi/PopcornP
 [Abhinav Sinha](https://github.com/abhinav110595)<br>
 [Sam Kwiatkowski-Martin](https://github.com/ExtremeMachine12)<br>
 
-## Contact
-
-In case of any issues, please e-mail your queries to popcornpicks504@gmail.com or raise an issue on this repository.
-
 ## Join the PopcornPicks Community:
 
 Contribute to the project and help us improve recommendations.

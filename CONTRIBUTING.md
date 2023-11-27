@@ -1,8 +1,6 @@
 ## Contributing:
 
-* If you would like to contribute and collaborate with this repository, then please inform us through email at popcornpicks504@gmail.com.
-
-## Purpose of Contributing:
+### Purpose of Contributing:
 
 * To develop our product and take it to the next level.
 * To enhance the already existing feature.
@@ -13,7 +11,7 @@
 * Help us to scale the system to a larger database
 * To run the email notifier feature - make your own Gmail account and password and replace the same in the utils.py(function: send_email_to_user(recipient_email, categorized_data))
 
-## Our Table Of Contents
+### Our Table Of Contents
 
 - .github/workflows  
   - all GitHub workflow YAML files  
