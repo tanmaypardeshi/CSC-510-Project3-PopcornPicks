@@ -50,6 +50,4 @@ def recommend_for_new_user(user_rating):
     join_movies_and_recommendations.sort_values(
         by="recommended", ascending=False, inplace=True
     )
-    join_movies_and_recommendations[:9].to_csv("temp.csv")
-    
     return join_movies_and_recommendations[:9]
