@@ -12,7 +12,6 @@ import requests
 from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_socketio import emit
-#from flask import Flask
 from dotenv import load_dotenv
 from src import app, db, bcrypt, socket
 from src.search import Search
@@ -105,7 +104,19 @@ def profile_page():
     """
         Profile Page
     """
-    reviews = Review.query.filter(user_id=current_user.id)
+    reviews_objects = Review.query.filter_by(user_id=current_user.id).all()
+    reviews = []
+    for review in reviews_objects:
+        movie_object = Movie.query.filter_by(movieId=review.movieId).first()
+        obj = {
+            "title" : movie_object.title,
+            "runtime" : movie_object.runtime,
+            "overview" : movie_object.overview,
+            "genres" : movie_object.genres,
+            "imdb_id" : movie_object.imdb_id,
+            "review_text" : review.review_text
+        }
+        reviews.append(obj)
     return render_template("profile.html", user=current_user, reviews=reviews, search=False)
 
 @app.route("/search_page")
@@ -229,17 +240,17 @@ def post_review():
     # Check if the movie already exists in the database.
     # If it exists, fetch the movie ID and save the review
     # If it does not, save the movie details and save the review
-    
+
     data = json.loads(request.data)
     user_object = User.query.filter_by(username=current_user.username).first()
     user_id = user_object.id
     review_text = data['review_text']
-    movieId = data["movieId"]
-    movie_object = Movie.query.filter_by(movieId=movieId).first()
+    movie_id = data["movieId"]
+    movie_object = Movie.query.filter_by(movieId=movie_id).first()
     if movie_object is None:
         # Create a new movie object
         movie = Movie(
-            movieId = movieId,
+            movieId = movie_id,
             title = data['title'],
             runtime = data['runtime'],
             overview = data['overview'],
@@ -251,14 +262,42 @@ def post_review():
         db.session.commit()
     review = Review(
         review_text = review_text,
-        movieId = movieId,
+        movieId = movie_id,
         user_id = user_id
     )
     db.session.add(review)
     db.session.commit()
     return jsonify({"success": "success"})
 
-    
+@app.route("/movies", methods=["GET"])
+@login_required
+def movie_page():
+    """
+        Get movies and their reviews
+    """
+    movies_ojbects = Movie.query.all()
+    movies = []
+    for movie_object in movies_ojbects:
+        reviews = []
+        obj1 = {
+            "title" : movie_object.title,
+            "runtime" : movie_object.runtime,
+            "overview" : movie_object.overview,
+            "genres" : movie_object.genres,
+            "imdb_id" : movie_object.imdb_id,
+        }
+        reviews_objects = Review.query.filter_by(movieId = movie_object.movieId).all()
+        for review_object in reviews_objects:
+            user = User.query.filter_by(id=review_object.user_id).first()
+            obj2 = {
+                "username": user.username,
+                "name": f"{user.first_name} {user.last_name}",
+                "review_text": review_object.review_text
+            }
+            reviews.append(obj2)
+        obj1["reviews"] = reviews
+        movies.append(obj1)
+    return render_template("movie.html", movies=movies, user=current_user)
 
 @app.route('/logout')
 def logout():

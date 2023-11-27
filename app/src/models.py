@@ -27,9 +27,10 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     reviews = db.relationship('Review', backref='user_author', lazy=True)
 
-    def __repr__(self):    
+    def __repr__(self):
         return f" {self.first_name} {self.last_name}"
 
+# pylint: disable=R0903
 class Movie(db.Model):
     """
         Movie Table
@@ -46,6 +47,7 @@ class Movie(db.Model):
     def __repr__(self):
         return f"{self.movieId} - {self.title}"
 
+# pylint: disable=R0903
 class Review(db.Model):
     """
         Review Table
@@ -56,5 +58,5 @@ class Review(db.Model):
     movieId = db.Column(db.Integer, db.ForeignKey('movie.movieId'), nullable=False)
 
     def __repr__(self):
-        return f"{self.user_id} - {self.movie_id}"
+        return f"{self.user_id} - {self.movieId}"
     

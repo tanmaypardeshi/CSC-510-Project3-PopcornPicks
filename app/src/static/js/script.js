@@ -75,27 +75,7 @@ $(document).ready(function () {
       });
   
       return posterURL;
-    };
-    // poster and reviews feature
-
-    // function fetchPosterAndReviews(imdbID) {
-    //   var details = null;
-    //   $.ajax({
-    //       type: "GET",
-    //       url: "/getPosterAndReviews",
-    //       dataType: "json",
-    //       data: { imdbID: imdbID },
-    //       async: false,
-    //       success: function (response) {
-    //           details = response;
-    //       },
-    //       error: function (error) {
-    //           console.log("Error fetching poster and reviews: " + error);
-    //       },
-    //   });
-  
-    //   return details;
-    // }  
+    };  
 
     $.ajax({
       type: "POST",
@@ -128,10 +108,12 @@ $(document).ready(function () {
                   <div class="poster_path" hidden>${data[i].poster_path}</div>
                   <div class="index" hidden>${i}</div>
                 </div>
-                <div class="card-footer text-muted">Genres : ${data[i].genres}</div>
               </div>
               <div class="col-md-4">
                   <img src="${fetchPosterURL(data[i].imdb_id)}" alt="Movie Poster" class="poster-image" style="width: 75%; height: auto; margin: 0;">
+              </div>
+              <div class="row">
+                <div class="card-footer text-muted">Genres : ${data[i].genres}</div>  
               </div>
             </div>`
           var modal = `
@@ -153,6 +135,7 @@ $(document).ready(function () {
               </div>
             </div>
           </div>`
+          modalParent.innerHTML += modal;
           column.append(card);
           list.append(column);
         }
