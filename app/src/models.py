@@ -25,5 +25,36 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    def __repr__(self):
+    reviews = db.relationship('Review', backref='user_author', lazy=True)
+
+    def __repr__(self):    
         return f" {self.first_name} {self.last_name}"
+
+class Movie(db.Model):
+    """
+        Movie Table
+    """
+    movieId = db.Column(db.Integer, primary_key=True, nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    runtime = db.Column(db.Integer, nullable=True)
+    overview = db.Column(db.Text, nullable=True)
+    genres = db.Column(db.String(500), nullable=False)
+    imdb_id = db.Column(db.String(20), nullable=False)
+    poster_path = db.Column(db.String(200), nullable=True)
+    reviews = db.relationship('Review', backref='movie_author', lazy=True)
+
+    def __repr__(self):
+        return f"{self.movieId} - {self.title}"
+
+class Review(db.Model):
+    """
+        Review Table
+    """
+    review_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    review_text = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    movieId = db.Column(db.Integer, db.ForeignKey('movie.movieId'), nullable=False)
+
+    def __repr__(self):
+        return f"{self.user_id} - {self.movie_id}"
+    

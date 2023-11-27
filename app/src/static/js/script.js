@@ -51,7 +51,6 @@ $(document).ready(function () {
 
     // Clear the existing recommendations
     $("#predictedMovies").empty();
-
     // if movies list empty then throw an error box saying select atleast 1 movie!!
     if (movie_list.length == 0) {
       alert("Select atleast 1 movie!!");
@@ -67,9 +66,9 @@ $(document).ready(function () {
       data: JSON.stringify(movies),
       success: function (response) {
         var data = JSON.parse(response);
-        console.log(data);
         var list = $("#predictedMovies");
-        var title = $("<br><br><h2>Recommended Movies</h2>");
+        var title = $("<h2>Recommended Movies</h2>");
+        var modalParent = document.getElementById("modalParent");
         $("#recommended_block").append(title);
         
         for (var i = 0; i < data.length; i++) {
@@ -80,9 +79,35 @@ $(document).ready(function () {
               <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
               <p class="card-text">${data[i].overview}</p>
               <a target="_blank" href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="modalButton-${i}" data-bs-target="#reviewModal-${i}">Write a review</button>
+              <div class="movieId" hidden>${data[i].movieId}</div>
+              <div class="genres" hidden>${data[i].genres}</div>
+              <div class="imdb_id" hidden>${data[i].imdb_id}</div>
+              <div class="poster_path" hidden>${data[i].poster_path}</div>
+              <div class="index" hidden>${i}</div>
             </div>
             <div class="card-footer text-muted">Genres : ${data[i].genres}</div>
           </div>`
+          var modal = `
+          <div class="modal fade" id="reviewModal-${i}" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="reviewModaLabel">Write your review</h5>
+                  <button type="button" onclick="modalOnClose(${i})" id="closeModal-${i}" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <textarea class="form-control" rows=10 id="review-${i}"></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" onclick="modalOnClick(${i})" id="saveChanges-${i}" class="btn btn-primary modal-save">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>`
+          modalParent.innerHTML += modal;
           column.append(card);
           list.append(column);
         }
@@ -204,5 +229,4 @@ $(document).ready(function () {
       },
     });
   });
-  
 });

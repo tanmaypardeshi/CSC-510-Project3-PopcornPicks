@@ -8,6 +8,10 @@
   />
 {% endblock %}
 
+{% block extrajs %}
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>  
+{% endblock %}
+
 {% block maincontent %}
 <div class="container" style="margin-top: 60px;">
   <div class="heading1">
@@ -17,19 +21,24 @@
   </div>
   <div class="row" style="margin-top: 25px;">
     <!-- Left Column (Selected Movie(s) and Search) -->
-    <div class="row">
-      <h3>Selected Movie(s):</h3>
-      <div class="d-flex justify-content-between">
-        <div class="col-md-9">
-          <!-- Selected Movie(s) section -->
-          <input class="form-control mr-sm-2" type="search" placeholder="Search for a Movie" aria-label="Search" id="searchBox" />
-          <ul class="list-group" id="selectedMovies"></ul>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-2">
-          <!-- Predict button -->
-          <input type="button" class="btn btn-primary" name="predict" id="predict" value="Predict" />
-        </div>
+    <h3>Selected Movie(s):</h3>
+    <div class="d-flex justify-content-between">
+      <div class="col-md-9">
+        <!-- Selected Movie(s) section -->
+        <input class="form-control mr-sm-2" type="search" placeholder="Search for a Movie" aria-label="Search" id="searchBox" />
+        <ul class="list-group" id="selectedMovies"></ul>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-2">
+        <!-- Predict button -->
+        <input type="button" class="btn btn-primary" name="predict" id="predict" value="Predict" />
+      </div>
+    </div>
+  </div>
+  <div class="row alert">
+    <div class="col-sm-12">
+      <div class="alert alert-success" role="alert" id="saved-flash" hidden="true">
+        Review saved!
       </div>
     </div>
   </div>
@@ -47,25 +56,6 @@
     <span class="sr-only"></span>
   </div>
 </div>
-<div class="container" style="margin-top: 20px;">
-  <div class="row">
-    <div class="col-md-12">
-      <!-- Checkbox section -->
-      <input class="c-checkbox" type="checkbox" id="checkbox" />
-    </div>
-  </div>
-</div>
-<div class="container" style="margin-top: 20px;">
-  <div class="row">
-    <div class="col-md-8">
-      <!-- Data collected section -->
-      <div id="dataCollected" style="display: none;">
-        <h1>Thanks!! Your response was stored.</h1>
-        <input type="button" id="refreshPage" class="btn btn-danger" name="refreshPage" value="Take another attempt" />
-      </div>
-    </div>
-  </div>
-</div>
-<br /><br /><br />
+<div id="modalParent"></div>
 </body>
 {% endblock %}
