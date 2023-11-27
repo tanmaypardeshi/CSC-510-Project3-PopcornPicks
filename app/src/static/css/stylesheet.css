@@ -142,13 +142,6 @@ tr {
   justify-content: center;
 }
 
-.heading1 > div {
-  display: flex;
-  justify-content: center;
-  margin-top: 6rem;
-  margin-bottom: 6rem;
-}
-
 body {
   font-size: 10px;
   font-family: Roboto, sans-serif;

@@ -32,7 +32,6 @@
     <!-- Below is for if we need to put in extra css files for a specific page on the app since they all extend the layout.html -->
     {% block extracss %}{% endblock %}
     <!-- Below links the javascript files for the layout.html -->
-    <!--<script defer src="{{ url_for('static', filename='script.js') }}"></script>-->
     <script
       src="https://code.jquery.com/jquery-3.5.1.min.js"
       crossorigin="anonymous"
@@ -58,22 +57,12 @@
     >
       <div class="container-fluid">
         <a class="navbar-brand" href="{{ url_for('landing_page') }}">PopcornPicks🍿</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
         {% if current_user.is_authenticated %}
           <div class="ms-auto">Welcome {{ user }}!</div>
           <a type="button" class="btn btn-success ms-auto" href="{{ url_for('chat_page') }}">Chat Room</a>
+          <a type="button" class="btn btn-warning ms-2" href="{{ url_for('movie_page') }}">Movie Page</a>
           {% if search is true %}
-            <a type="button" class="btn btn-primary ms-2" href="{{url_for('profile_page') }}">Profile</a>
+            <a type="button" class="btn btn-primary ms-2" href="{{url_for('profile_page') }}">Profile Page</a>
           {% else %}
             <a type="button" class="btn btn-primary ms-2" href="{{url_for('search_page') }}">Search Page</a>  
           {% endif %}          
