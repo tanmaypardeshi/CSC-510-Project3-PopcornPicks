@@ -7,7 +7,11 @@
       <h2><center>🍿 New Movies Coming Soon! 🍿</center></h2>
       <h6 class="tipHeader">✨Tip: Stay tuned for the latest releases! ✨</h6>
   </div>
-
+  {% if show_message %}
+  <div class="alert alert-danger" role="alert">
+    Could not fetch new movies
+  </div>
+  {% else %}
   <div class="row" style="margin-top: 25px;">
       <div class="col-md-12">
           <!-- Movie List Section -->
@@ -23,6 +27,7 @@
           </ul>
       </div>
   </div>
+  {% endif %}
 </div>
 <br /><br /><br />
 {% endblock %}
