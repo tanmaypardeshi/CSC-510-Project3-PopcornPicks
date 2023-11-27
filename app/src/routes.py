@@ -6,20 +6,22 @@ This code is licensed under MIT license (see LICENSE for details)
 """
 
 import json
+import os
 import requests
 
 from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_socketio import emit
+#from flask import Flask
+from dotenv import load_dotenv
 from src import app, db, bcrypt, socket
 from src.search import Search
 from src.utils import beautify_feedback_data, send_email_to_user
 from src.item_based import recommend_for_new_user
 from src.models import User
-from flask import Flask, request, jsonify
 
-from dotenv import load_dotenv
-import os
+
+
 
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
@@ -138,26 +140,31 @@ def broadcast_message(data):
     """
     emit('message', {'username': data['username'], 'msg': data['msg']}, broadcast=True)
 
-####poster 
-
+####poster
 @app.route("/getPosterURL", methods=["GET"])
 def get_poster_url():
+    """
+    Retrieve the poster URL for the recommended movie based on IMDb ID.
+    return: JSON response containing the poster URL.
+    """
     imdb_id = request.args.get("imdbID")
     poster_url = fetch_poster_url(imdb_id)
     return jsonify({"posterURL": poster_url})
 
-#Function to fetch the poster URL using TMDb API
 def fetch_poster_url(imdb_id):
-    url = f"https://api.themoviedb.org/3/find/{imdb_id}?api_key={TMDB_API_KEY}&external_source=imdb_id"
-    response = requests.get(url)
+    """
+    Fetch the poster URL for a movie from The Movie Database (TMDB) API.
+    """
+    timeout = 100
+    url = f"https://api.themoviedb.org/3/find/{imdb_id}?"\
+    f"api_key={TMDB_API_KEY}&external_source=imdb_id"
+    response = requests.get(url, timeout=timeout)
     data = response.json()
     # Check if movie results are present and have a poster path
     if "movie_results" in data and data["movie_results"]:
         poster_path = data["movie_results"][0].get("poster_path")
-        if poster_path:
-            return f"https://image.tmdb.org/t/p/w500{poster_path}"
-
-        return None
+        return f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+    return None
 
 @app.route("/predict", methods=["POST"])
 def predict():
