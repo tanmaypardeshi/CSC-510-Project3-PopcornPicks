@@ -126,7 +126,11 @@ the future
 
 5. **Interactive Review System**: In this feature, users should be able to comment on other people's reviews so that the site can be more interactive and engaging for everyone
 
-6. **Page for TV Shows**: Add a seperate section for TV shows.
+6. **Page for TV Shows**: Add a seperate section for TV shows. This can include shows from all streaming websites and television. This can be a parallel to the movies section of the website.
+
+7. **Email Notifier**: Allow the user to send their favourite movie recommendations via email.
+
+8. **Wishlist Feature**: Implement a feature where users can wishlist the recommendations they like and make lists of movies based on their preferences.
 
 The future of PopcornPicks is full of potential, and we invite developers, movie lovers, and anyone passionate about cinema to join us in making this platform the ultimate movie companion.
 
