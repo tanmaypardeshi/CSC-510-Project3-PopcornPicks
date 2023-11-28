@@ -13,44 +13,44 @@
 
 ### Our Table Of Contents
 
-- .github/workflows  
-  - all GitHub workflow YAML files  
-- proj2  
-   - score_card.md  
-  
-- src  
-  - prediction_scripts    
-     - item_based.py   
-  - recommenderapp
-    - static
-      - script.js
-      - stylesheet.css
-    - templates
-      - landing_page.html
-      -search.html
-      - success.html
-    - app.py
-    - search.py
-    - utils.py
-  
-- test  
-    - test_predict.py  
-    - test_search.py  
-    - test_util.py  
-  
-- .gitignore
+.
+├── app
+│   ├── init_db.py
+│   ├── instance
+│   │   └── site.db
+│   ├── run.py
+│   ├── src
+│   │   ├── __init__.py
+│   │   ├── item_based.py
+│   │   ├── models.py
+│   │   ├── __pycache__
+│   │   ├── routes.py
+│   │   ├── search.py
+│   │   ├── static
+│   │   ├── templates
+│   │   └── utils.py
+│   └── test
+│       ├── __init__.py
+│       ├── __pycache__
+│       ├── test_predict.py
+│       ├── test_search.py
+│       └── test_util.py
+├── asset
+│   ├── demo.gif
+│   ├── email.png
+│   ├── execution.gif
+│   ├── group12.png
+│   ├── header_display.png
+│   ├── system_architecture.svg
+│   └── SystemArch.png
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── data
+│   └── movies.csv
+├── LICENSE
+├── README.md
+└── requirements.txt
 
-- CODE_OF_CONDUCT.md
-
-- CONTRIBUTING.md
-
-- LICENSE
-
-- README.md
-
-- requirements.txt
-
-- setup.py
 
 ## Suggesting Enhancements
 
@@ -87,7 +87,7 @@ Any suggested enhancements like adding new features or improving existing functi
 
 ## Code of Conduct:
 
-* Please go through the [Code of Conduct](https://github.com/adipai/PopcornPicks/blob/master/CODE_OF_CONDUCT.md) before you begin contributing. This project and everyone participating in it is governed by the Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to popcornpicks504@gmail.com.
+* Please go through the [Code of Conduct](https://github.com/tanmaypardeshi/PopcornPicks/blob/master/CODE_OF_CONDUCT.md) before you begin contributing. This project and everyone participating in it is governed by the Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to popcornpicks504@gmail.com.
 
 ## Pull Request Submission Guidelines
 
