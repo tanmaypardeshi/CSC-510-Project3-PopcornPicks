@@ -114,13 +114,19 @@ Follow the setup instructions in the wiki documentation
 
 PopcornPicks is a dynamic project with endless possibilities for expansion and enhancement. Here are some exciting avenues for future development:
 
-1. **User Profiles and Preferences**: Implement user profiles where users can save their preferences, ratings, and watch history for a more personalized movie discovery experience.
+1. **Enahncements on the User Profile**: Implement more advanced features to the user profile. For example, include edit
+or delete review option. Make validations for the duplicate reviews. These are a few examples of what can be enhanced in 
+the future
 
 2. **Integration with Streaming Services**: Integrate with popular streaming services to provide real-time availability information and seamless access to recommended movies.
 
-3. **Movie Reviews and Ratings**: Allow users to write and read movie reviews and ratings, fostering a community of film critics and enthusiasts.
+3. **Dynamic Chat Rooms**: The current design of the application supports only a single chat room which is global to the website. The chat rooms can be made dynamic to a movie.
 
 4. **Improved Recommendation Algorithm**: Enhance the recommendation engine with more advanced machine learning models and collaborative filtering techniques to provide even more accurate and personalized movie suggestions.
+
+5. **Interactive Review System**: In this feature, users should be able to comment on other people's reviews so that the site can be more interactive and engaging for everyone
+
+6. **Page for TV Shows**: Add a seperate section for TV shows.
 
 The future of PopcornPicks is full of potential, and we invite developers, movie lovers, and anyone passionate about cinema to join us in making this platform the ultimate movie companion.
 
