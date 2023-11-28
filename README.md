@@ -74,6 +74,8 @@ PopcornPicks is a user-friendly movie recommender that curates a tailored list o
 
 ### Chat Room
 
+### New Movies
+
 
 ## Project 3 - New Version
 
