@@ -58,20 +58,22 @@ PopcornPicks is a user-friendly movie recommender that curates a tailored list o
 
 ## Core Applications of the Project
 
+### Engaging and Interactive UI
+
+### User Authentication
+
+### Personalised Profile Page for Users
+
+### Check Out New and Upcoming Movies
+
 ### Movie Recommendation Mechanism
 
-**The user selects upto 5 movies to get a tailored watchlist and provide feedback for the same**
+### Write Movie Reviews
 
-<img src="https://github.com/tanmaypardeshi/PopcornPicks/blob/master/asset/recommend_mechanism.gif" width="600" height="375">
+### See What Others Have Been 
 
-### Email Notifier
+### Chat Room
 
-**The user sends his/her movies feedback via an email (Notify Me button)**
-
-<div style="display: flex; justify-content: space-between;">
-    <img src="https://github.com/tanmaypardeshi/PopcornPicks/blob/master/asset/email_notifier.gif" alt="Email Notifier" width="600" height="375">
-    <img src="https://github.com/tanmaypardeshi/PopcornPicks/blob/master/asset/email.png" alt="Email" width="400" height="400">
-</div>
 
 ## Project 3 - New Version
 
