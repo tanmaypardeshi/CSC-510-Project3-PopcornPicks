@@ -4,7 +4,7 @@
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://gitHub.com/tanmaypardeshi/PopcornPicks/graphs/commit-activity) [![Contributors Activity](https://img.shields.io/github/commit-activity/m/tanmaypardeshi/PopcornPicks)](https://github.com/tanmaypardeshi/PopcornPicks/pulse) [![GitHub issues](https://img.shields.io/github/issues/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues-closed](https://img.shields.io/github/issues-closed/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aissue+is%3Aclosed) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/tanmaypardeshi/PopcornPicks) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211655.svg)](https://doi.org/10.5281/zenodo.10211655) [![Unittest](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml/badge.svg?branch=master&event=push)](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml) [![codecov](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks/graph/badge.svg?token=SZWTDA4REW)](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks)[![GitHub release](https://img.shields.io/github/release/tanmaypardeshi/PopcornPicks.svg)](https://GitHub.com/tanmaypardeshi/PopcornPicks/releases/) [![StyleCheck: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) [![HitCount](https://hits.dwyl.com/tanmaypardeshi/PopcornPicks.svg)](https://hits.dwyl.com/tanmaypardeshi/PopcornPicks) ![GitHub contributors](https://img.shields.io/github/contributors/tanmaypardeshi/PopcornPicks) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/tanmaypardeshi/PopcornPicks) ![GitHub repo size](https://img.shields.io/github/repo-size/tanmaypardeshi/PopcornPicks)
 
-<img src="https://github.com/tanmaypardeshi/PopcornPicks/blob/master/asset/header_display.png" alt="drawing" style="width:1000px;"/>
+![Home page](./asset/home-page.png)
 <b>PopcornPicks is more than just a movie recommender system; it's a gateway to a world of cinematic adventures. With an ever-expanding library of films, a powerful recommendation algorithm, an all-new chat room, a new state-of-the-art account system, a newly added robust review system, and more, PopcornPicks is here to transform the way you discover, enjoy, and connect with movies.</b>
 
 # Contents
@@ -62,20 +62,29 @@ PopcornPicks is a user-friendly movie recommender that curates a tailored list o
 
 ### User Authentication
 
+### Sign up: Users can register to PopcornPicks to get the best recommendations for their favourite movies and genres
+![Sign Up](./asset/signup.gif)
+
+### Login: 
+![Login](./asset/login.gif)
+
 ### Personalised Profile Page for Users
+![Profile](./asset/profile.gif)
 
 ### Check Out New and Upcoming Movies
+![New Movies](./asset/new_movies.gif)
 
 ### Movie Recommendation Mechanism
+![Recommend](./asset/predicted_movie_poster.gif)
 
 ### Write Movie Reviews
+![Review](./asset/review.gif)
 
-### See What Others Have Been 
+### See What Others Have Seen 
+![Movies](./asset/movies-list.gif)
 
 ### Chat Room
-
-### New Movies
-
+![Chat](./asset/ChatRoom.gif)
 
 ## Project 3 - New Version
 
@@ -161,6 +170,10 @@ Share your experience and film discoveries with us.
 Together, let's make PopcornPicks the ultimate movie companion!
 PopcornPicks is more than just code; it's a passion for cinema, and we invite you to be a part of this exciting journey. Start exploring, sharing, and discovering movies like never before with PopcornPicks!
 Let's make movie nights extraordinary together!
+
+## Contact Us
+
+If you have any concerns or questions related to PopcornPicks, you can reach out to us at popcornpickv2@gmail.com
 
 ## License
 
