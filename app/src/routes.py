@@ -308,6 +308,7 @@ def logout():
     return redirect('/')
 
 @app.route('/new_movies', methods=["GET"])
+@login_required
 def new_movies():
     """
         API to fetch new movies
@@ -336,7 +337,7 @@ def new_movies():
         # Parse the JSON response
         movie_data = response.json().get('results', [])
 
-        return render_template('new_movies.html', movies=movie_data)
+        return render_template('new_movies.html', movies=movie_data, user=current_user)
     return render_template('new_movies.html', show_message=True,
                            message='Error fetching movie data')
 
