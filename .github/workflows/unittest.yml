@@ -21,17 +21,17 @@ jobs:
     - name: Running test cases for predicting
       run: |
         cd app
-        python test/test_predict.py
+        pytest test/test_predict.py
     - name: Running test cases for searching
       run: |
         cd app
-        python test/test_search.py
+        pytest test/test_search.py
     - name: Running test cases for util
       run: |
         cd app
-        python test/test_util.py
+        pytest test/test_util.py
     - name: Running test cases for chat
       run: |
         cd app
-        python test/test_chat.py
+        pytest test/test_chat.py
     
