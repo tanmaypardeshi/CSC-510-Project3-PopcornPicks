@@ -12,7 +12,7 @@
 * To run the email notifier feature - make your own Gmail account and password and replace the same in the utils.py(function: send_email_to_user(recipient_email, categorized_data))
 
 ### Our Table Of Contents
-
+```
 .
 ├── app
 │   ├── init_db.py
@@ -50,7 +50,7 @@
 ├── LICENSE
 ├── README.md
 └── requirements.txt
-
+```
 
 ## Suggesting Enhancements
 
