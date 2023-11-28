@@ -15,12 +15,8 @@ from flask_socketio import emit
 from dotenv import load_dotenv
 from src import app, db, bcrypt, socket
 from src.search import Search
-from src.utils import beautify_feedback_data, send_email_to_user
 from src.item_based import recommend_for_new_user
 from src.models import User, Movie, Review
-
-
-
 
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
@@ -34,36 +30,6 @@ def landing_page():
     if current_user.is_authenticated:
         return redirect(url_for('search_page'))
     return render_template("landing_page.html")
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    """
-        Login Page Flow 
-    """
-    try:
-        # If user has already logged in earlier and has an active session
-        if current_user.is_authenticated:
-            return redirect(url_for('search_page'))
-        # If user has not logged in and a login request is sent by the user
-        if request.method == "POST":
-            username = request.form["username"]
-            password = request.form["password"]
-            user = User.query.filter_by(username=username).first()
-            # Successful Login
-            if user and bcrypt.check_password_hash(user.password, password):
-                login_user(user)
-                return redirect(url_for('search_page'))
-            # Invalid Credentials
-            show_message = True
-            message = "Invalid Credentials! Try again!"
-            return render_template("login.html", message=message, show_message=show_message)
-        # When the login page is hit
-        return render_template("login.html")
-    #pylint: disable=broad-except
-    except Exception as e:
-        print(f"Error is {e}")
-        return render_template('login.html', message=e, show_message=True)
-
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -98,6 +64,43 @@ def signup():
         message = f"Username {username} already exists!"
         return render_template('signup.html', message=message, show_message=True)
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """
+        Login Page Flow 
+    """
+    try:
+        # If user has already logged in earlier and has an active session
+        if current_user.is_authenticated:
+            return redirect(url_for('search_page'))
+        # If user has not logged in and a login request is sent by the user
+        if request.method == "POST":
+            username = request.form["username"]
+            password = request.form["password"]
+            user = User.query.filter_by(username=username).first()
+            # Successful Login
+            if user and bcrypt.check_password_hash(user.password, password):
+                login_user(user)
+                return redirect(url_for('search_page'))
+            # Invalid Credentials
+            show_message = True
+            message = "Invalid Credentials! Try again!"
+            return render_template("login.html", message=message, show_message=show_message)
+        # When the login page is hit
+        return render_template("login.html")
+    #pylint: disable=broad-except
+    except Exception as e:
+        print(f"Error is {e}")
+        return render_template('login.html', message=e, show_message=True)
+
+@app.route('/logout')
+def logout():
+    """
+        Logout Function
+    """
+    logout_user()
+    return redirect('/')
+
 @app.route("/profile_page", methods=["GET"])
 @login_required
 def profile_page():
@@ -119,7 +122,7 @@ def profile_page():
         reviews.append(obj)
     return render_template("profile.html", user=current_user, reviews=reviews, search=False)
 
-@app.route("/search_page")
+@app.route("/search_page", methods=["GET"])
 @login_required
 def search_page():
     """
@@ -128,55 +131,6 @@ def search_page():
     if current_user.is_authenticated:
         return render_template("search.html", user=current_user, search=True)
     return redirect(url_for('landing_page'))
-
-@app.route("/chat")
-def chat_page():
-    """
-        Renders chat room page
-    """
-    if current_user.is_authenticated:
-        return render_template("movie_chat.html", user=current_user)
-    return redirect(url_for('landing_page'))
-
-@socket.on('connections')
-def show_connection(data):
-    """
-        Prints out if the connection to the chat page is successful
-    """
-    print('received message: ' + data)
-
-@socket.on('message')
-def broadcast_message(data):
-    """
-        Distributes messages sent to the server to all clients in real time
-    """
-    emit('message', {'username': data['username'], 'msg': data['msg']}, broadcast=True)
-
-####poster
-@app.route("/getPosterURL", methods=["GET"])
-def get_poster_url():
-    """
-    Retrieve the poster URL for the recommended movie based on IMDb ID.
-    return: JSON response containing the poster URL.
-    """
-    imdb_id = request.args.get("imdbID")
-    poster_url = fetch_poster_url(imdb_id)
-    return jsonify({"posterURL": poster_url})
-
-def fetch_poster_url(imdb_id):
-    """
-    Fetch the poster URL for a movie from The Movie Database (TMDB) API.
-    """
-    timeout = 100
-    url = f"https://api.themoviedb.org/3/find/{imdb_id}?"\
-    f"api_key={TMDB_API_KEY}&external_source=imdb_id"
-    response = requests.get(url, timeout=timeout)
-    data = response.json()
-    # Check if movie results are present and have a poster path
-    if "movie_results" in data and data["movie_results"]:
-        poster_path = data["movie_results"][0].get("poster_path")
-        return f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
-    return None
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -206,30 +160,53 @@ def search():
     resp.status_code = 200
     return resp
 
-@app.route("/feedback", methods=["POST"])
-def feedback():
+@app.route("/chat", methods=["GET"])
+def chat_page():
     """
-    Handles user feedback submission and mails the results.
+        Renders chat room page
     """
-    data = json.loads(request.data)
-    return data
+    if current_user.is_authenticated:
+        return render_template("movie_chat.html", user=current_user)
+    return redirect(url_for('landing_page'))
 
-@app.route("/sendMail", methods=["POST"])
-def send_mail():
+@socket.on('connections')
+def show_connection(data):
     """
-        Handles user feedback submission and mails the results.
+        Prints out if the connection to the chat page is successful
     """
-    data = json.loads(request.data)
-    user_email = data['email']
-    send_email_to_user(user_email, beautify_feedback_data(data))
-    return data
+    print('received message: ' + data)
 
-@app.route("/success")
-def success():
+@socket.on('message')
+def broadcast_message(data):
     """
-    Renders the success page.
+        Distributes messages sent to the server to all clients in real time
     """
-    return render_template("success.html", user=current_user)
+    emit('message', {'username': data['username'], 'msg': data['msg']}, broadcast=True)
+
+@app.route("/getPosterURL", methods=["GET"])
+def get_poster_url():
+    """
+    Retrieve the poster URL for the recommended movie based on IMDb ID.
+    return: JSON response containing the poster URL.
+    """
+    imdb_id = request.args.get("imdbID")
+    poster_url = fetch_poster_url(imdb_id)
+    return jsonify({"posterURL": poster_url})
+
+def fetch_poster_url(imdb_id):
+    """
+    Fetch the poster URL for a movie from The Movie Database (TMDB) API.
+    """
+    timeout = 100
+    url = f"https://api.themoviedb.org/3/find/{imdb_id}?"\
+    f"api_key={TMDB_API_KEY}&external_source=imdb_id"
+    response = requests.get(url, timeout=timeout)
+    data = response.json()
+    # Check if movie results are present and have a poster path
+    if "movie_results" in data and data["movie_results"]:
+        poster_path = data["movie_results"][0].get("poster_path")
+        return f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+    return None
 
 @app.route("/postReview", methods=["POST"])
 @login_required
@@ -299,14 +276,6 @@ def movie_page():
         movies.append(obj1)
     return render_template("movie.html", movies=movies, user=current_user)
 
-@app.route('/logout')
-def logout():
-    """
-        Logout Function
-    """
-    logout_user()
-    return redirect('/')
-
 @app.route('/new_movies', methods=["GET"])
 @login_required
 def new_movies():
@@ -340,7 +309,3 @@ def new_movies():
         return render_template('new_movies.html', movies=movie_data, user=current_user)
     return render_template('new_movies.html', show_message=True,
                            message='Error fetching movie data')
-
-
-if __name__ == "__main__":
-    app.run(port=5000, debug=True)

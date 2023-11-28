@@ -30,4 +30,8 @@ jobs:
       run: |
         cd app
         python test/test_util.py
+    - name: Running test cases for chat
+      run: |
+        cd app
+        python test/test_chat.py
     
