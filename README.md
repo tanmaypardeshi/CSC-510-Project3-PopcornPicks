@@ -59,13 +59,14 @@ PopcornPicks is a user-friendly movie recommender that curates a tailored list o
 ## Core Applications of the Project
 
 ### Engaging and Interactive UI
+![UI](./asset/engage.gif)
 
 ### User Authentication
 
-### Sign up: Users can register to PopcornPicks to get the best recommendations for their favourite movies and genres
+#### Sign up: Users can register to PopcornPicks to get the best recommendations for their favourite movies and genres
 ![Sign Up](./asset/signup.gif)
 
-### Login: 
+#### Login: 
 ![Login](./asset/login.gif)
 
 ### Personalised Profile Page for Users
