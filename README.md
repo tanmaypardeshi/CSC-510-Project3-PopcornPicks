@@ -1,9 +1,11 @@
 # <i> PopcornPicks🍿: Your Destination for Movie Recommendations </i>
 
+# [![Check our Wiki Page for detailed information about the project, system architecture, installation steps, guides and a lot more!](https://github.com/tanmaypardeshi/CSC-510-Project3-PopcornPicks/wiki)]
+
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://gitHub.com/tanmaypardeshi/PopcornPicks/graphs/commit-activity) [![Contributors Activity](https://img.shields.io/github/commit-activity/m/tanmaypardeshi/PopcornPicks)](https://github.com/tanmaypardeshi/PopcornPicks/pulse) [![GitHub issues](https://img.shields.io/github/issues/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues-closed](https://img.shields.io/github/issues-closed/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aissue+is%3Aclosed) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/tanmaypardeshi/PopcornPicks) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211655.svg)](https://doi.org/10.5281/zenodo.10211655) [![Unittest](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml/badge.svg?branch=master&event=push)](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml) [![codecov](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks/graph/badge.svg?token=SZWTDA4REW)](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks)[![GitHub release](https://img.shields.io/github/release/tanmaypardeshi/PopcornPicks.svg)](https://GitHub.com/tanmaypardeshi/PopcornPicks/releases/) [![StyleCheck: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) [![HitCount](https://hits.dwyl.com/tanmaypardeshi/PopcornPicks.svg)](https://hits.dwyl.com/tanmaypardeshi/PopcornPicks) ![GitHub contributors](https://img.shields.io/github/contributors/tanmaypardeshi/PopcornPicks) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/tanmaypardeshi/PopcornPicks) ![GitHub repo size](https://img.shields.io/github/repo-size/tanmaypardeshi/PopcornPicks)
 
 <img src="https://github.com/tanmaypardeshi/PopcornPicks/blob/master/asset/header_display.png" alt="drawing" style="width:1000px;"/>
-<b>PopcornPicks is more than just a movie recommender system; it's a gateway to a world of cinematic adventures. With an ever-expanding library of films and a powerful recommendation algorithm, PopcornPicks is here to transform the way you discover, enjoy, and connect with movies.</b>
+<b>PopcornPicks is more than just a movie recommender system; it's a gateway to a world of cinematic adventures. With an ever-expanding library of films, a powerful recommendation algorithm, an all-new chat room, a new state-of-the-art account system, a newly added robust review system, and more, PopcornPicks is here to transform the way you discover, enjoy, and connect with movies.</b>
 
 # Contents
 
@@ -26,20 +28,21 @@
 ## Why use PopcornPicks?
 
 <img
-  src="https://media.giphy.com/media/l1J9GIXk9w7OYsd5S/giphy.gif"
-  alt="Starship with iTerm2 and the Snazzy theme"
+  src="https://media.giphy.com/media/nOwG55u1jGOiTAqKqU/giphy.gif"
   width="40%"
   align="right"
 />
 
-PopcornPicks: Your movie recommender! Input movies, get tailored suggestions, and share via email. Elevate your movie choices effortlessly!
+**PopcornPicks: Your personalized movie guide!**
 
 - **Efficient:** Lightning-fast recommendations for movie buffs! 🚀
 - **Adaptable:** Tailor the recommendations to your taste.
 - **Accessible:** Works across all platforms and shells.
 - **Insightful:** Get movie insights at a glance.
-- **Comprehensive:** Supports a wide array of user-preferred movies.
-- **Simple:** Easy installation and setup – start discovering great movies in no time!"
+- **Comprehensive:** Includes the ability to review and chat about your favorite movies.
+- **Simple:** Easy installation and setup – start discovering great movies in no time!
+- **Robust:** Build your own account where you can store all the movies you've seen.
+ 
 
 ## Documentation
 
