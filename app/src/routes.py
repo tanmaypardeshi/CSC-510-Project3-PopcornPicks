@@ -117,7 +117,8 @@ def profile_page():
             "overview" : movie_object.overview,
             "genres" : movie_object.genres,
             "imdb_id" : movie_object.imdb_id,
-            "review_text" : review.review_text
+            "review_text" : review.review_text,
+            "score" : review.score
         }
         reviews.append(obj)
     return render_template("profile.html", user=current_user, reviews=reviews, search=False)
@@ -139,12 +140,20 @@ def predict():
     """
     data = json.loads(request.data)
     data1 = data["movie_list"]
+    selected_genre = data.get("genre")
+    release_year = data.get("year")
     training_data = []
     for movie in data1:
         movie_with_rating = {"title": movie, "rating": 5.0}
         if movie_with_rating not in training_data:
             training_data.append(movie_with_rating)
-    data = recommend_for_new_user(training_data)
+    user_reviews = Review.query.filter_by(user_id=current_user.id).all()
+    for review in user_reviews:
+        movie = Movie.query.filter_by(movieId=review.movieId).first()
+        movie_with_rating = {"title": movie.title, "rating": review.score}
+        if movie_with_rating not in training_data:
+            training_data.append(movie_with_rating)
+    data = recommend_for_new_user(training_data, selected_genre, release_year)
     data = data.to_json(orient="records")
     return jsonify(data)
 
@@ -222,6 +231,7 @@ def post_review():
     user_object = User.query.filter_by(username=current_user.username).first()
     user_id = user_object.id
     review_text = data['review_text']
+    score = data['score']
     movie_id = data["movieId"]
     movie_object = Movie.query.filter_by(movieId=movie_id).first()
     if movie_object is None:
@@ -239,6 +249,7 @@ def post_review():
         db.session.commit()
     review = Review(
         review_text = review_text,
+        score=score,
         movieId = movie_id,
         user_id = user_id
     )

@@ -7,12 +7,19 @@ This code is licensed under MIT license (see LICENSE for details)
 
 import os
 import pandas as pd
+import re
 
 app_dir = os.path.dirname(os.path.abspath(__file__))
 code_dir = os.path.dirname(app_dir)
 project_dir = os.path.dirname(code_dir)
 
-def recommend_for_new_user(user_rating):
+def extract_year_from_title(title):
+    match = re.search(r'\((\d{4})\)', title)
+    if match:
+        return int(match.group(1))  # Extract the year as an integer
+    return None
+
+def recommend_for_new_user(user_rating, selected_genre=None, selected_year=None):
     """
     Generates a list of recommended movie titles for a new user based on their ratings.
     """
@@ -50,4 +57,13 @@ def recommend_for_new_user(user_rating):
     join_movies_and_recommendations.sort_values(
         by="recommended", ascending=False, inplace=True
     )
+    if selected_genre:
+        join_movies_and_recommendations = join_movies_and_recommendations[
+            join_movies_and_recommendations["genres"].str.contains(selected_genre, case=False)
+        ]
+
+    if selected_year:
+        join_movies_and_recommendations = join_movies_and_recommendations[
+            join_movies_and_recommendations["title"].apply(extract_year_from_title) == selected_year
+        ]
     return join_movies_and_recommendations[:10]

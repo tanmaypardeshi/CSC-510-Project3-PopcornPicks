@@ -46,8 +46,12 @@ $(document).ready(function () {
     $("#selectedMovies li").each(function () {
       movie_list.push($(this).text());
     });
-
-    var movies = { movie_list: movie_list };
+    var selected_genre = $("#genreSelect").val(); // Get the selected genre
+    var release_year = $("#releaseYear").val();
+    if (release_year) {
+        release_year = parseInt(release_year);
+    }
+    var movies = { movie_list: movie_list, genre: selected_genre, year: release_year };
 
     // Clear the existing recommendations
     $("#predictedMovies").empty();
@@ -127,6 +131,16 @@ $(document).ready(function () {
                 <div class="modal-body">
                   <div class="mb-3">
                     <textarea class="form-control" rows=10 id="review-${i}"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="score-${i}" class="form-label">Select Score:</label>
+                    <select class="form-select" id="score-${i}">
+                        <option value="1.0">1.0</option>
+                        <option value="2.0">2.0</option>
+                        <option value="3.0">3.0</option>
+                        <option value="4.0">4.0</option>
+                        <option value="5.0">5.0</option>
+                    </select>
                   </div>
                 </div>
                 <div class="modal-footer">
