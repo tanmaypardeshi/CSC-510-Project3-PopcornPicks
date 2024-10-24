@@ -95,16 +95,22 @@ $(document).ready(function () {
         var title = $("<h2>Recommended Movies</h2>");
         var modalParent = document.getElementById("modalParent");
         $("#recommended_block").append(title);
+        var row = $('<div class="row"></div>');
         for (var i = 0; i < data.length; i++) {
-          var column = $('<div class="col-sm-12"></div>');
+          if (i > 0 && i % 3 === 0) {
+            // After every 3 movies, append the row to the list and create a new row
+            list.append(row);
+            row = $('<div class="row"></div>'); // Create a new row for the next set of 3 movies
+          }
+          var column = $('<div class="col-md-4"></div>');
           var card = `<div class="card movie-card">
             <div class="row no-gutters">
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <div class="card-body">
-                  <h5 class="card-title">${data[i].title}</h5>
+                  <a type="button" class="btn btn-warning ms-2" href="/movies?movie_id=${data[i].movieId}">${data[i].title}</a>
                   <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
-                  <p class="card-text">${data[i].overview}</p>
-                  <a target="_blank" href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
+                  <p class="card-text" hidden>${data[i].overview}</p>
+                  <a target="_blank" href="/movies?movie_id=${data[i].movieId}" class="btn btn-primary" hidden>Check out the movie!</a>
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="modalButton-${i}" data-bs-target="#reviewModal-${i}">Write a review</button>
                   <div class="movieId" hidden>${data[i].movieId}</div>
                   <div class="genres" hidden>${data[i].genres}</div>
@@ -113,11 +119,8 @@ $(document).ready(function () {
                   <div class="index" hidden>${i}</div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                   <img src="${fetchPosterURL(data[i].imdb_id)}" alt="Movie Poster" class="poster-image" style="width: 75%; height: auto; margin: 0;">
-              </div>
-              <div class="row">
-                <div class="card-footer text-muted">Genres : ${data[i].genres}</div>  
               </div>
             </div>`
           var modal = `
@@ -151,8 +154,9 @@ $(document).ready(function () {
           </div>`
           modalParent.innerHTML += modal;
           column.append(card);
-          list.append(column);
+          row.append(column);
         }
+        list.append(row)
         $("#loader").attr("class", "d-none");
       },
       error: function (error) {
