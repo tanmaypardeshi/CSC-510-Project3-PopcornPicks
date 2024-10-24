@@ -93,6 +93,11 @@ Check out the significant changes that we made for Project 3:
 * Backend: [Click Here](https://github.com/tanmaypardeshi/CSC-510-Project3-PopcornPicks/wiki/Backend)
 * Frontend: [Click Here](https://github.com/tanmaypardeshi/CSC-510-Project3-PopcornPicks/wiki/Frontend)
 
+## Project 2 Fall 2024 - New Version
+
+Here are some of the new changes implemented for Project 2:
+* [Deployment To Render](#render-deployment)
+
 ## Tech stack Used👨‍💻:
 
 <code><a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5" target="_blank"><img height="50" src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-ar21.svg"></a></code>
@@ -129,6 +134,16 @@ Follow the setup instructions in the wiki documentation
 
 <b>Finally, start enjoying personalized movie recommendations!</b>
 
+### Render Deployment
+This project is now hostied on the free web service [Render](https://render.com)! You can acccess the site at this url:
+
+[http://popcorn-picks.onrender.com](http://popcorn-picks.onrender.com)
+
+*WARNING*: Since this is hosted on the free tier on render, it can be slow at times, use at your own discretion. 
+
+#### Deploying to render
+The deployment CI is set up such that any commits to the master branch will trigger a reploy of the project. This generally takes around 2-3 minutes, so if you try and access the site right after committing and receive a 502, it is most likely that the deploy has not finished yet
+
 ## Future Scope
 
 PopcornPicks is a dynamic project with endless possibilities for expansion and enhancement. Here are some exciting avenues for future development:
@@ -163,6 +178,11 @@ Please refer to the [CONTRIBUTING.md](https://github.com/tanmaypardeshi/PopcornP
 [Chandana Ray](https://github.com/cray94)<br>
 [Abhinav Sinha](https://github.com/abhinav110595)<br>
 [Sam Kwiatkowski-Martin](https://github.com/ExtremeMachine12)<br>
+
+### New Contributors for Project 2 Fall 2024
+[Aditya Karthikeyan](https://github.com/adryne01)<br>
+[Braden Helmer](https://github.com/bradenhelmer)<br>
+[Quoc Hung Le](https://github.com/hunglequoc2001)<br>
 
 ## Join the PopcornPicks Community:
 
