@@ -1,91 +1,96 @@
-$(document).ready(function () {
-  $(function () {
+$(document).ready(function() {
+  $(function() {
     $("#searchBox").autocomplete({
-      source: function (request, response) {
+      source : function(request, response) {
         $.ajax({
-          type: "POST",
-          url: "/search",
-          dataType: "json",
-          cache: false,
-          data: {
-            q: request.term,
+          type : "POST",
+          url : "/search",
+          dataType : "json",
+          cache : false,
+          data : {
+            q : request.term,
           },
-          success: function (data) {
-            response(data);
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus + " " + errorThrown);
-          },
+          success : function(data) { response(data); },
+          error : function(
+              jqXHR, textStatus,
+              errorThrown) { console.log(textStatus + " " + errorThrown); },
         });
       },
-      select: function (event, ui) {
+      select : function(event, ui) {
         var ulList = $("#selectedMovies");
         // Check if the value already exists in the list
         if (ulList.find('li:contains("' + ui.item.value + '")').length > 0) {
           $("#searchBox").val("");
           return false;
         }
+        var deleteButton = $(
+            "<button type='button' class='btn btn-danger btn-sm'>Delete</button>")
+        // Attach click event to the delete button
+        deleteButton.click(function() {
+          $(this)
+              .closest('li')
+              .remove(); // Removes the parent <li> of the button
+        });
 
-        var li = $("<li class='list-group-item'/>")
-          .text(ui.item.value)
-          .appendTo(ulList);
+        var li =
+            $("<li class='list-group-item d-flex justify-content-between align-items-center'/>")
+                .text(ui.item.value)
+                .append(deleteButton)
+                .appendTo(ulList);
         $("#searchBox").val("");
         return false;
       },
 
       // changed the min-length for searching movies from 2 to 1
-      minLength: 1,
+      minLength : 1,
     });
   });
 
-  $("#predict").click(function () {
+  $("#predict").click(function() {
     $("#loader").attr("class", "d-flex justify-content-center");
 
     var movie_list = [];
 
-    $("#selectedMovies li").each(function () {
-      movie_list.push($(this).text());
-    });
+    $("#selectedMovies li")
+        .each(function() { movie_list.push($(this).text()); });
 
-    var movies = { movie_list: movie_list };
+    var movies = {movie_list : movie_list};
 
     // Clear the existing recommendations
     $("#predictedMovies").empty();
-    // if movies list empty then throw an error box saying select atleast 1 movie!!
+    // if movies list empty then throw an error box saying select atleast 1
+    // movie!!
     if (movie_list.length == 0) {
       alert("Select atleast 1 movie!!");
     }
 
-    //fetching poster using /getposterurl
+    // fetching poster using /getposterurl
 
     function fetchPosterURL(imdbID) {
       var posterURL = null;
       $.ajax({
-          type: "GET",
-          url: "/getPosterURL", 
-          dataType: "json",
-          data: { imdbID: imdbID },
-          async: false, 
-          success: function (response) {
-              posterURL = response.posterURL;
-          },
-          error: function (error) {
-              console.log("Error fetching poster URL: " + error);
-          },
+        type : "GET",
+        url : "/getPosterURL",
+        dataType : "json",
+        data : {imdbID : imdbID},
+        async : false,
+        success : function(response) { posterURL = response.posterURL; },
+        error : function(
+            error) { console.log("Error fetching poster URL: " + error); },
       });
-  
+
       return posterURL;
-    };  
+    };
 
     $.ajax({
-      type: "POST",
-      url: "/predict",
-      dataType: "json",
-      contentType: "application/json;charset=UTF-8",
-      traditional: "true",
-      cache: false,
-      data: JSON.stringify(movies),
-      success: function (response) {
+      type : "POST",
+      url : "/predict",
+      dataType : "json",
+      contentType : "application/json;charset=UTF-8",
+      traditional : "true",
+      cache : false,
+      data : JSON.stringify(movies),
+      success : function(response) {
         var data = JSON.parse(response);
         var list = $("#predictedMovies");
         var title = $("<h2>Recommended Movies</h2>");
@@ -98,10 +103,13 @@ $(document).ready(function () {
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title">${data[i].title}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">${
+              data[i].runtime} minutes</h6>
                   <p class="card-text">${data[i].overview}</p>
-                  <a target="_blank" href="https://www.imdb.com/title/${data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="modalButton-${i}" data-bs-target="#reviewModal-${i}">Write a review</button>
+                  <a target="_blank" href="https://www.imdb.com/title/${
+              data[i].imdb_id}" class="btn btn-primary">Check out IMDb Link</a>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="modalButton-${
+              i}" data-bs-target="#reviewModal-${i}">Write a review</button>
                   <div class="movieId" hidden>${data[i].movieId}</div>
                   <div class="genres" hidden>${data[i].genres}</div>
                   <div class="imdb_id" hidden>${data[i].imdb_id}</div>
@@ -110,27 +118,37 @@ $(document).ready(function () {
                 </div>
               </div>
               <div class="col-md-4">
-                  <img src="${fetchPosterURL(data[i].imdb_id)}" alt="Movie Poster" class="poster-image" style="width: 75%; height: auto; margin: 0;">
+                  <img src="${
+              fetchPosterURL(
+                  data[i]
+                      .imdb_id)}" alt="Movie Poster" class="poster-image" style="width: 75%; height: auto; margin: 0;">
               </div>
               <div class="row">
-                <div class="card-footer text-muted">Genres : ${data[i].genres}</div>  
+                <div class="card-footer text-muted">Genres : ${
+              data[i].genres}</div>  
               </div>
             </div>`
           var modal = `
-          <div class="modal fade" id="reviewModal-${i}" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+          <div class="modal fade" id="reviewModal-${
+              i}" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="reviewModaLabel">Write your review</h5>
-                  <button type="button" onclick="modalOnClose(${i})" id="closeModal-${i}" class="btn-close" aria-label="Close"></button>
+                  <button type="button" onclick="modalOnClose(${
+              i})" id="closeModal-${
+              i}" class="btn-close" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div class="mb-3">
-                    <textarea class="form-control" rows=10 id="review-${i}"></textarea>
+                    <textarea class="form-control" rows=10 id="review-${
+              i}"></textarea>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" onclick="modalOnClick(${i})" id="saveChanges-${i}" class="btn btn-primary modal-save">Save changes</button>
+                  <button type="button" onclick="modalOnClick(${
+              i})" id="saveChanges-${
+              i}" class="btn btn-primary modal-save">Save changes</button>
                 </div>
               </div>
             </div>
@@ -141,14 +159,14 @@ $(document).ready(function () {
         }
         $("#loader").attr("class", "d-none");
       },
-      error: function (error) {
+      error : function(error) {
         console.log("ERROR ->" + error);
         $("#loader").attr("class", "d-none");
       },
     });
   });
 
-  window.addEventListener("popstate", function (event) {
+  window.addEventListener("popstate", function(event) {
     // Check if the user is navigating back
     if (event.state && event.state.page === "redirect") {
       // Redirect the user to a specific URL
@@ -159,31 +177,27 @@ $(document).ready(function () {
 
   var FeedbackData;
 
-  $("#feedback").click(function () {
+  $("#feedback").click(function() {
     notifyMeButton = document.getElementById("checkbox");
     notifyMeButton.disabled = false;
     var myForm = $("fieldset");
     var data = {};
     var labels = {
-      1: "Dislike",
-      2: "Yet to watch",
-      3: "Like",
+      1 : "Dislike",
+      2 : "Yet to watch",
+      3 : "Like",
     };
 
     // to check if any movies selected before giving feedback
-    if(myForm.length == 0){
+    if (myForm.length == 0) {
       alert("No movies found. Please add movies to provide feedback.");
       return;
     }
     var error = false; // Flag to track errors
 
     for (var i = 0; i < myForm.length; i++) {
-      var input = $("#" + i)
-        .find("div")
-        .find("input:checked")[0];
-      var movieName = $("#" + i)
-        .find("div")
-        .find("li")[0].innerText;
+      var input = $("#" + i).find("div").find("input:checked")[0];
+      var movieName = $("#" + i).find("div").find("li")[0].innerText;
 
       if (!input) {
         // If no selection is made, set error flag to true and break the loop
@@ -203,54 +217,49 @@ $(document).ready(function () {
     FeedbackData = data;
     localStorage.setItem("fbData", JSON.stringify(data));
     $.ajax({
-      type: "POST",
-      url: "/feedback",
-      dataType: "json",
-      contentType: "application/json;charset=UTF-8",
-      traditional: "true",
-      cache: false,
-      data: JSON.stringify(data),
-      success: function (response) {
-        window.location.href = "/success";
-      },
-      error: function (error) {
-        console.log("ERROR ->" + error);
-      },
+      type : "POST",
+      url : "/feedback",
+      dataType : "json",
+      contentType : "application/json;charset=UTF-8",
+      traditional : "true",
+      cache : false,
+      data : JSON.stringify(data),
+      success : function(response) { window.location.href = "/success"; },
+      error : function(error) { console.log("ERROR ->" + error); },
     });
   });
 
-  $("#notifyButton").click(function () {
+  $("#notifyButton").click(function() {
     var data = JSON.parse(localStorage.getItem("fbData"));
     $("#loaderSuccess").attr("class", "d-flex justify-content-center");
     if (!data) {
       alert("No feedback data found. Please provide feedback.");
       return;
     }
-  
+
     var emailString = $("#emailField").val();
     data.email = emailString;
-  
+
     // Remove the "emailSent" flag to allow sending the email again
     localStorage.removeItem("emailSent");
-  
+
     $.ajax({
-      type: "POST",
-      url: "/sendMail",
-      dataType: "json",
-      contentType: "application/json;charset=UTF-8",
-      traditional: "true",
-      cache: false,
-      data: JSON.stringify(data),
-      success: function (response) {
+      type : "POST",
+      url : "/sendMail",
+      dataType : "json",
+      contentType : "application/json;charset=UTF-8",
+      traditional : "true",
+      cache : false,
+      data : JSON.stringify(data),
+      success : function(response) {
         $("#loaderSuccess").attr("class", "d-none");
         $("#emailSentSuccess").show();
-        setTimeout(function () {
-          $("#emailSentSuccess").fadeOut("slow");
-        }, 2000);
-        $('#area1').attr('placeholder', 'Email'); 
+        setTimeout(function() { $("#emailSentSuccess").fadeOut("slow"); },
+                   2000);
+        $('#area1').attr('placeholder', 'Email');
         $('#emailField').val('');
       },
-      error: function (error) {
+      error : function(error) {
         $("#loaderSuccess").attr("class", "d-none");
         console.log("ERROR ->" + error);
         localStorage.removeItem("fbData");
