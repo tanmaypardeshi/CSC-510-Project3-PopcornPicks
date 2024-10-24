@@ -66,4 +66,4 @@ def recommend_for_new_user(user_rating, selected_genre=None, selected_year=None)
         join_movies_and_recommendations = join_movies_and_recommendations[
             join_movies_and_recommendations["title"].apply(extract_year_from_title) == selected_year
         ]
-    return join_movies_and_recommendations[:10]
+    return join_movies_and_recommendations[:9]
