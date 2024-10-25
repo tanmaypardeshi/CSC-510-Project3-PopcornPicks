@@ -17,6 +17,11 @@ from src import app, db, bcrypt, socket
 from src.search import Search
 from src.item_based import recommend_for_new_user
 from src.models import User, Movie, Review
+import pandas as pd
+
+app_dir = os.path.dirname(os.path.abspath(__file__))
+code_dir = os.path.dirname(app_dir)
+project_dir = os.path.dirname(code_dir)
 
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
@@ -67,7 +72,7 @@ def signup():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """
-        Login Page Flow 
+        Login Page Flow
     """
     try:
         # If user has already logged in earlier and has an active session
@@ -117,7 +122,8 @@ def profile_page():
             "overview" : movie_object.overview,
             "genres" : movie_object.genres,
             "imdb_id" : movie_object.imdb_id,
-            "review_text" : review.review_text
+            "review_text" : review.review_text,
+            "score" : review.score
         }
         reviews.append(obj)
     return render_template("profile.html", user=current_user, reviews=reviews, search=False)
@@ -139,12 +145,20 @@ def predict():
     """
     data = json.loads(request.data)
     data1 = data["movie_list"]
+    selected_genre = data.get("genre")
+    release_year = data.get("year")
     training_data = []
     for movie in data1:
         movie_with_rating = {"title": movie, "rating": 5.0}
         if movie_with_rating not in training_data:
             training_data.append(movie_with_rating)
-    data = recommend_for_new_user(training_data)
+    user_reviews = Review.query.filter_by(user_id=current_user.id).all()
+    for review in user_reviews:
+        movie = Movie.query.filter_by(movieId=review.movieId).first()
+        movie_with_rating = {"title": movie.title, "rating": review.score}
+        if movie_with_rating not in training_data:
+            training_data.append(movie_with_rating)
+    data = recommend_for_new_user(training_data, selected_genre, release_year)
     data = data.to_json(orient="records")
     return jsonify(data)
 
@@ -222,6 +236,7 @@ def post_review():
     user_object = User.query.filter_by(username=current_user.username).first()
     user_id = user_object.id
     review_text = data['review_text']
+    score = data['score']
     movie_id = data["movieId"]
     movie_object = Movie.query.filter_by(movieId=movie_id).first()
     if movie_object is None:
@@ -239,6 +254,7 @@ def post_review():
         db.session.commit()
     review = Review(
         review_text = review_text,
+        score=score,
         movieId = movie_id,
         user_id = user_id
     )
@@ -250,31 +266,47 @@ def post_review():
 @login_required
 def movie_page():
     """
-        Get movies and their reviews
+        Get movies and their reviews from CSV using pandas
     """
-    movies_ojbects = Movie.query.all()
-    movies = []
-    for movie_object in movies_ojbects:
-        reviews = []
-        obj1 = {
-            "title" : movie_object.title,
-            "runtime" : movie_object.runtime,
-            "overview" : movie_object.overview,
-            "genres" : movie_object.genres,
-            "imdb_id" : movie_object.imdb_id,
+    movie_id = request.args.get('movie_id')  # Get the movie ID from the query parameters
+    movie_id = int(movie_id)
+
+    # Load the CSV file into a DataFrame
+    movies_df = pd.read_csv(os.path.join(project_dir, "data", "movies.csv"))
+
+    # Find the movie details by filtering the DataFrame
+    movie_details = movies_df[movies_df['movieId'] == movie_id]
+
+    if movie_details.empty:
+        print("No movie found with the given movie_id")  # Debugging statement
+        return "Movie not found", 404  # Return an error message if the movie doesn't exist
+
+    movie_info = movie_details.iloc[0]  # Get the first matching movie
+    reviews = []
+
+    # Fetch reviews based on the movieId from the database
+    reviews_objects = Review.query.filter_by(movieId=int(movie_info['movieId'])).all()
+    for review_object in reviews_objects:
+        user = User.query.filter_by(id=review_object.user_id).first()
+        obj2 = {
+            "username": user.username,
+            "name": f"{user.first_name} {user.last_name}",
+            "review_text": review_object.review_text
         }
-        reviews_objects = Review.query.filter_by(movieId = movie_object.movieId).all()
-        for review_object in reviews_objects:
-            user = User.query.filter_by(id=review_object.user_id).first()
-            obj2 = {
-                "username": user.username,
-                "name": f"{user.first_name} {user.last_name}",
-                "review_text": review_object.review_text
-            }
-            reviews.append(obj2)
-        obj1["reviews"] = reviews
-        movies.append(obj1)
-    return render_template("movie.html", movies=movies, user=current_user)
+        reviews.append(obj2)
+
+    movie_info_dict = {
+        "title": movie_info['title'],
+        "runtime": movie_info['runtime'],
+        "overview": movie_info['overview'],
+        "genres": movie_info['genres'],
+        "imdb_id": movie_info['imdb_id'],
+        "reviews": reviews
+    }
+
+    return render_template("movie.html", movies=[movie_info_dict],
+                           user=current_user)  # Return a list with one movie object
+
 
 @app.route('/new_movies', methods=["GET"])
 @login_required
