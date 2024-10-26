@@ -22,19 +22,40 @@
     <form id="form" class="form-inline" action="" onsubmit="submiter(); return false;">
         <div class="form-group">
             <input id="input" class="form-control mr-2" autocomplete="off" />
+            <!-- 密码输入框 -->
+            <input type="password" id="password" placeholder="Enter your chat password..." />
         </div>
         <button type="submit" class="btn btn-primary ms-2">Send</button>
     </form>
 </div>
 
 </div>
-    <script>function submiter() {
-        /*function needs to be in here the user can be sent over to the js*/
-    /* Connects directly to when someone clicks the button to send a message */
-    var msg = document.getElementById('input');
-    console.log(msg)
-    socket.emit('message', { username: '{{user}}', msg: msg.value });
-    msg.value = ''; /* removes whats in your input form */
-    return false; /* makes sure the web page doesn't just refresh */
-}</script>
+<script>
+    // 模拟的密码，实际项目中你可以从服务器端获取或通过更安全的方式管理
+    var chatPassword = "secretPassword";
+    
+    function submitMessage() {
+        // 获取输入的消息和密码
+        var msg = document.getElementById('input');
+        var password = document.getElementById('password');
+        
+        // 检查密码是否正确
+        if (password.value === chatPassword) {
+            // 如果密码正确，发送消息
+            console.log("Message sent:", msg.value);
+            socket.emit('message', { username: '{{user}}', msg: msg.value });
+            
+            // 清空输入框和密码框
+            msg.value = '';
+            password.value = '';
+        } else {
+            // 如果密码不正确，给出提示
+            alert("Incorrect password. Please try again.");
+        }
+        
+        return false; // 确保页面不刷新
+    }
+    </script>
+
+
 {% endblock %}
