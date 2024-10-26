@@ -4,58 +4,109 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chat.css') }}">
 {% endblock %}
 
-{% block extrajs %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
-{% endblock %}
-
 {% block maincontent %}
 <div class="container" style="margin-top: 60px;" id="centralDivLanding">
   <div class="heading1"><br><br><br><br>
     <h2><center>🎬 PopcornPicks🍿: Chat with others about Movies! 🎬</center></h2>
   </div>
-    <div class="card d-flex flex-column">
-    <div class="card-header text-secondary">
+  <div class="d-flex">
+    <!-- Chat Box -->
+    <div class="card d-flex flex-column flex-grow-1 me-3">
+      <div class="card-header text-secondary">
         Live Movie Chat
-    </div>
-    <ul id="message_list" class="list-group flex-grow-1 overflow-auto"></ul>
-    <form id="form" class="form-inline" action="" onsubmit="submiter(); return false;">
+      </div>
+      <ul id="message_list" class="list-group flex-grow-1 overflow-auto"></ul>
+      <form id="form" class="form-inline" action="" onsubmit="submitMessage(); return false;">
         <div class="form-group">
-            <input id="input" class="form-control mr-2" autocomplete="off" />
-            <!-- 密码输入框 -->
-            <input type="password" id="password" placeholder="Enter your chat password..." />
+          <input id="input" class="form-control mr-2" autocomplete="off" placeholder="Enter your message" />
         </div>
         <button type="submit" class="btn btn-primary ms-2">Send</button>
-    </form>
+      </form>
+    </div>
+
+    <!-- User List -->
+    <div class="card d-flex flex-column" style="width: 250px;">
+      <div class="card-header text-secondary">
+        User List
+      </div>
+      <ul id="user_list" class="list-group flex-grow-1 overflow-auto"></ul>
+      <form id="user_form" class="p-2" onsubmit="addUser(); return false;">
+        <input id="username_input" class="form-control mb-2" placeholder="Enter username" autocomplete="off" />
+        <button type="submit" class="btn btn-success w-100">Add User</button>
+      </form>
+    </div>
+  </div>
 </div>
 
-</div>
 <script>
-    // 模拟的密码，实际项目中你可以从服务器端获取或通过更安全的方式管理
-    var chatPassword = "secretPassword";
-    
-    function submitMessage() {
-        // 获取输入的消息和密码
-        var msg = document.getElementById('input');
-        var password = document.getElementById('password');
-        
-        // 检查密码是否正确
-        if (password.value === chatPassword) {
-            // 如果密码正确，发送消息
-            console.log("Message sent:", msg.value);
-            socket.emit('message', { username: '{{user}}', msg: msg.value });
-            
-            // 清空输入框和密码框
-            msg.value = '';
-            password.value = '';
-        } else {
-            // 如果密码不正确，给出提示
-            alert("Incorrect password. Please try again.");
-        }
-        
-        return false; // 确保页面不刷新
-    }
-    </script>
+  const allowedUsers = new Set(); // 用于存储允许的用户名
 
+  // 处理消息提交的函数
+  function submitMessage() {
+    const msgInput = document.getElementById('input');
+    const username = '{{ user }}'; // 使用模板传入的用户名
+
+    // 检查用户是否在允许的用户列表中
+    if (allowedUsers.has(username)) {
+      addMessageToList(username, msgInput.value); // 显示消息
+      msgInput.value = ''; // 清空输入框
+    } else {
+      alert('You are not allowed to send messages. Please add your username to the list.');
+    }
+    
+    return false; // 防止页面刷新
+  }
+
+  // 添加用户到用户列表
+  function addUser() {
+    const usernameInput = document.getElementById('username_input').value.trim();
+
+    if (usernameInput && !allowedUsers.has(usernameInput)) {
+      allowedUsers.add(usernameInput);
+      updateUserList();
+      document.getElementById('username_input').value = ''; // 清空输入框
+    } else {
+      alert('User already exists or invalid input');
+    }
+  }
+
+  // 从用户列表中删除用户
+  function removeUser(username) {
+    if (allowedUsers.has(username)) {
+      allowedUsers.delete(username);
+      updateUserList();
+    }
+  }
+
+  // 更新用户列表
+  function updateUserList() {
+    const userList = document.getElementById('user_list');
+    userList.innerHTML = ''; // 清空用户列表
+
+    allowedUsers.forEach(username => {
+      const userItem = document.createElement('li');
+      userItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+      userItem.textContent = username;
+
+      // 每个用户的删除按钮
+      const removeButton = document.createElement('button');
+      removeButton.className = 'btn btn-danger btn-sm';
+      removeButton.textContent = 'Remove';
+      removeButton.onclick = () => removeUser(username);
+
+      userItem.appendChild(removeButton);
+      userList.appendChild(userItem);
+    });
+  }
+
+  // 添加消息到消息列表
+  function addMessageToList(username, message) {
+    const messageList = document.getElementById('message_list');
+    const messageItem = document.createElement('li');
+    messageItem.className = 'list-group-item';
+    messageItem.textContent = `${username}: ${message}`;
+    messageList.appendChild(messageItem);
+  }
+</script>
 
 {% endblock %}
