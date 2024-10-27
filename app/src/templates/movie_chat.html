@@ -45,10 +45,10 @@
 </div>
 
 <script>
-  const allowedUsers = new Set(); // 用于存储允许的用户名
-  const currentUser = '{{ user }}'; // 当前用户名
+  const allowedUsers = new Set(); // Set to store allowed usernames
+  const currentUser = '{{ user }}'; // Current username
 
-  // 页面加载时，初始化用户列表
+  // Initialize user list when the page loads
   window.onload = function() {
     if (currentUser) {
       allowedUsers.add(currentUser);
@@ -56,39 +56,39 @@
     }
   };
 
-  // 处理消息提交的函数
+  // Function to handle message submission
   function submitMessage() {
     const msgInput = document.getElementById('input');
 
-    // 检查用户是否在允许的用户列表中
+    // Check if the user is in the allowed users list
     if (allowedUsers.has(currentUser)) {
-      addMessageToList(currentUser, msgInput.value); // 显示消息
-      msgInput.value = ''; // 清空输入框
+      addMessageToList(currentUser, msgInput.value); // Display the message
+      msgInput.value = ''; // Clear the input field
     } else {
-      // 不允许发送消息时，输出当前用户名和用户列表
-      alert(`You are not allowed to send messages.\n\nCurrent Username: ${currentUser}\nCurrent Users: ${Array.from(allowedUsers).join(', ')}, ${allowedUsers.has(currentUser)}`);
+      // When not allowed to send messages, output current username and user list
+      alert(`You are not allowed to send messages.`);
     }
     
-    return false; // 防止页面刷新
+    return false; // Prevent page refresh
   }
 
-  // 添加用户到用户列表
+  // Add a user to the user list
   function addUser() {
     const usernameInput = document.getElementById('username_input').value;
 
-    // 添加新用户
+    // Add a new user
     if (usernameInput && !allowedUsers.has(usernameInput)) {
       allowedUsers.add(usernameInput);
       updateUserList();
-      document.getElementById('username_input').value = ''; // 清空输入框
+      document.getElementById('username_input').value = ''; // Clear the input field
     } else if (allowedUsers.has(usernameInput)) {
-      alert('User already exists.');
+      alert('User already exists.'); // Notify if the user already exists
     } else {
-      alert('Invalid input.');
+      alert('Invalid input.'); // Notify if input is invalid
     }
   }
 
-  // 从用户列表中删除用户
+  // Remove a user from the user list
   function removeUser(username) {
     if (allowedUsers.has(username)) {
       allowedUsers.delete(username);
@@ -96,23 +96,23 @@
     }
   }
 
-  // 更新用户列表
+  // Update the user list
   function updateUserList() {
     const userList = document.getElementById('user_list');
-    userList.innerHTML = ''; // 清空用户列表
+    userList.innerHTML = ''; // Clear the user list
 
     allowedUsers.forEach(username => {
       const userItem = document.createElement('li');
       userItem.className = 'list-group-item d-flex justify-content-between align-items-center';
       userItem.textContent = username;
 
-      // 每个用户的删除按钮
+      // Remove button for each user
       const removeButton = document.createElement('button');
       removeButton.className = 'btn btn-danger btn-sm';
       removeButton.textContent = 'Remove';
       removeButton.onclick = () => {
         removeUser(username);
-        // 如果删除的是当前用户名，清空输入框并提示重新添加
+        // If the current user is removed, prompt to add the username again
         if (username === currentUser) {
           alert('You have been removed. Please add your username again to send messages.');
         }
@@ -123,7 +123,7 @@
     });
   }
 
-  // 添加消息到消息列表
+  // Add a message to the message list
   function addMessageToList(username, message) {
     const messageList = document.getElementById('message_list');
     const messageItem = document.createElement('li');
@@ -134,3 +134,4 @@
 </script>
 
 {% endblock %}
+
