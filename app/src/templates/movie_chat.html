@@ -74,17 +74,7 @@
 
   // 添加用户到用户列表
   function addUser() {
-    const usernameInput = document.getElementById('username_input').value.trim();
-
-    // 如果输入的是当前用户名，直接添加到允许的用户列表中
-    if (usernameInput === currentUser) {
-      if (!allowedUsers.has(currentUser)) {
-        allowedUsers.add(currentUser);
-        updateUserList();
-        document.getElementById('username_input').value = ''; // 清空输入框
-      }
-      return;
-    }
+    const usernameInput = document.getElementById('username_input').value;
 
     // 添加新用户
     if (usernameInput && !allowedUsers.has(usernameInput)) {
