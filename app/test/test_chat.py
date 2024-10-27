@@ -32,6 +32,8 @@ class MyTestCase(unittest.TestCase):
         assert receive_list[0]['name'] == 'message'
         assert receive_list[0]['args']['username'] == 'Bob'
         assert receive_list[0]['args']['msg'] == 'Hello'
+    
+    
 
 if __name__ == '__main__':
     unittest.main()
