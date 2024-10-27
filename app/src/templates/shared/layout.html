@@ -60,6 +60,7 @@
         {% if current_user.is_authenticated %}
           <div class="ms-auto">Welcome {{ user }}!</div>
           <a type="button" class="btn btn-success ms-auto" href="{{ url_for('chat_page') }}">Chat Room</a>
+          <a type="button" class="btn btn-secondary ms-3" href="{{ url_for('userlist_page') }}">Lists</a>
           <a type="button" class="btn btn-danger ms-1" href="{{ url_for('new_movies') }}">New Movies</a>
           {% if search is true %}
             <a type="button" class="btn btn-primary ms-2" href="{{url_for('profile_page') }}">Profile Page</a>
