@@ -47,6 +47,15 @@
 <script>
   const allowedUsers = new Set(); // 用于存储允许的用户名
 
+  // 添加当前用户名到允许的用户列表中
+  window.onload = function() {
+    const currentUser = '{{ user }}';
+    if (currentUser) {
+      allowedUsers.add(currentUser);
+      updateUserList();
+    }
+  };
+
   // 处理消息提交的函数
   function submitMessage() {
     const msgInput = document.getElementById('input');
@@ -116,3 +125,4 @@
 </script>
 
 {% endblock %}
+
