@@ -67,7 +67,6 @@
     } else {
       // 不允许发送消息时，输出当前用户名和用户列表
       alert(`You are not allowed to send messages.\n\nCurrent Username: ${currentUser}\nCurrent Users: ${Array.from(allowedUsers).join(', ')}\nUser Types:\n${userTypes}\nIs current user allowed? ${allowedUsers.has(currentUser)}`);
-
     }
     
     return false; // 防止页面刷新
