@@ -80,8 +80,10 @@
       allowedUsers.add(usernameInput);
       updateUserList();
       document.getElementById('username_input').value = ''; // 清空输入框
+    } else if (allowedUsers.has(usernameInput)) {
+      alert('User already exists.');
     } else {
-      alert('User already exists or invalid input');
+      alert('Invalid input.');
     }
   }
 
@@ -125,4 +127,3 @@
 </script>
 
 {% endblock %}
-
