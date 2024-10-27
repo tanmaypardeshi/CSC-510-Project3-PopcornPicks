@@ -12,7 +12,7 @@
   
   <!-- Current Username Display -->
   <div class="alert alert-info text-center mt-3" role="alert">
-    <strong>{{ user }}</strong>
+    <strong>Current Username: {{ user }}</strong>
   </div>
   
   <div class="d-flex">
@@ -65,7 +65,8 @@
       addMessageToList(currentUser, msgInput.value); // 显示消息
       msgInput.value = ''; // 清空输入框
     } else {
-      alert('You are not allowed to send messages. Please add your username to the list.');
+      // 不允许发送消息时，输出当前用户名和用户列表
+      alert(`You are not allowed to send messages.\n\nCurrent Username: ${currentUser}\nCurrent Users: ${Array.from(allowedUsers).join(', ')}, ${allowedUsers.has(currentUser)}`);
     }
     
     return false; // 防止页面刷新
