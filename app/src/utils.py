@@ -85,13 +85,13 @@ def create_movie_genres(movie_genre_df):
     # Iterating on all movies to create the map
     for row in movie_genre_df.iterrows():
         movie = row[1]['title']
-        genres = row[1]['genres']  # 获取genres字段
+        genres = row[1]['genres']  # get genres field
 
-        # 检查genres是否为None
+        # check if genres is None
         if genres is None:
-            genres = []  # 如果是None，设置为空列表
+            genres = []  # If None, set empty list
         else:
-            genres = genres.split('|')  # 否则进行split操作
+            genres = genres.split('|')  # otherwise split
 
         movie_to_genres[movie] = genres
     
