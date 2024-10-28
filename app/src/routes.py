@@ -314,33 +314,38 @@ def new_movies():
 @login_required
 def popular_people():
     """
-        API to fetch popular people
+    API to fetch popular people
     """
-    # Replace YOUR_TMDB_API_KEY with your actual TMDb API key
     tmdb_api_key = TMDB_API_KEY
     endpoint = 'https://api.themoviedb.org/3/trending/person/day?language=en-US'
 
-    # Set up parameters for the request
     params = {
         'api_key': tmdb_api_key,
-        'language': 'en-US',  # 你可以根据需要调整语言
-        'page': 1  # 如果有很多结果，你可能想要分页
+        'language': 'en-US',
+        'page': 1
     }
+    
     try:
-        # Make the request to TMDb API
         response = requests.get(endpoint, params=params, timeout=10)
     except (requests.exceptions.HTTPError,
             requests.exceptions.ConnectionError,
             requests.exceptions.Timeout,
-            requests.exceptions.RequestException
-            ) as e:
-        return render_template('popular_people.html', show_message=True,
-                               message=str(e))  # 将错误信息转换为字符串
+            requests.exceptions.RequestException) as e:
+        return render_template('popular_people.html', show_message=True, message=e)
 
     if response.status_code == 200:
-        # 解析 JSON 响应
-        people_data = response.json().get('results', [])  # 获取结果中的热门人物数据
+        # Parse the JSON response
+        people_data = response.json().get('results', [])
+        # Sort by popularity in descending order
+        sorted_people = sorted(people_data, key=lambda x: x['popularity'], reverse=True)
 
-        return render_template('popular_people.html', people=people_data, user=current_user)  # 使用people而不是movies
-    return render_template('popular_people.html', show_message=True,
-                           message='Error fetching people data')
+        # Fetch additional details for each person
+        for person in sorted_people:
+            person_id = person['id']
+            details_response = requests.get(f'https://api.themoviedb.org/3/person/{person_id}?api_key={tmdb_api_key}&language=en-US')
+            if details_response.status_code == 200:
+                person['biography'] = details_response.json().get('biography', 'No biography available.')
+
+        return render_template('popular_people.html', people=sorted_people, user=current_user)
+    
+    return render_template('popular_people.html', show_message=True, message='Error fetching people data')
