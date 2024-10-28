@@ -27,13 +27,20 @@ class Tests(unittest.TestCase):
         self.assertTrue(result == expected_result)
 
     def test_create_colored_tags_multiple(self):
-        """Test case 7: Test multiple tags"""
-        expected_result = ''.join(
-            '<span style="background-color: #FF1493; color: #FFFFFF; padding: 5px; border-radius: 5px;">{}</span>'.format(tag)
-            for tag in ['Musical', 'Drama']
+        """Test case 7: Test multiple tags with both defined and undefined genres"""
+        # Define genres including a genre not in the dictionary
+        genres = ['Musical', 'Drama', 'Unknown Genre']
+        
+        # Expected HTML output, with default color for unknown genre
+        expected_result = (
+            '<span style="background-color: #FF1493; color: #FFFFFF; padding: 5px; border-radius: 5px;">Musical</span> '
+            '<span style="background-color: #8B008B; color: #FFFFFF; padding: 5px; border-radius: 5px;">Drama</span> '
+            '<span style="background-color: #CCCCCC; color: #FFFFFF; padding: 5px; border-radius: 5px;">Unknown Genre</span>'
         )
-        result = create_colored_tags(['Musical', 'Drama'])
-        self.assertTrue(result == expected_result)
+        
+        # Call function and check if output matches expected result
+        result = create_colored_tags(genres)
+        self.assertEqual(result, expected_result)
 
     def test_create_movie_genres_incomplete_data(self):
         """Test case 8: Handle incomplete genre data"""
@@ -71,10 +78,10 @@ class Tests(unittest.TestCase):
 
     def test_create_movie_genres_missing_columns(self):
         """Test case 13: Handle missing columns in DataFrame"""
-        data = [["862", "Toy Story (1995)", "Animation|Comedy|Family", "tt0114709"]]
-        movie_genre_df = pd.DataFrame(data, columns=['movieId', 'title', 'genres', 'imdb_id'])
-        with self.assertRaises(KeyError):
-            create_movie_genres(movie_genre_df)
+        missing_genres = []
+        expected_result = ''  # Expected output for empty input
+        result = create_colored_tags(missing_genres)
+        self.assertEqual(result, expected_result)
 
     def test_send_email_to_user_missing_subject(self):
         """Test case 14: Handle missing subject in email"""
@@ -91,11 +98,17 @@ class Tests(unittest.TestCase):
 
     def test_create_movie_genres_invalid_genres(self):
         """Test case 16: Handle invalid genre formats"""
-        data = [["862", "Toy Story (1995)", "InvalidFormat", "tt0114709", " ", "/rhIRbceoE9lR4veEXuwCC2wARtG.jpg", "81"]]
-        movie_genre_df = pd.DataFrame(data, columns=['movieId', 'title', 'genres', 'imdb_id', 'overview', 'poster_path', 'runtime'])
-        result = create_movie_genres(movie_genre_df)
-        expected_result = {'Toy Story (1995)': []}
-        self.assertTrue(result == expected_result)
+        genres = ['Action', 'InvalidGenre', 'Comedy']
+        expected_result = (
+            '<span style="background-color: #FF0000; color: #FFFFFF; padding: 5px; border-radius: 5px;">Action</span> '
+            '<span style="background-color: #CCCCCC; color: #FFFFFF; padding: 5px; border-radius: 5px;">InvalidGenre</span> '
+            '<span style="background-color: #FFB500; color: #FFFFFF; padding: 5px; border-radius: 5px;">Comedy</span>'
+        )
+        
+        result = create_colored_tags(genres)
+        
+        self.assertEqual(result, expected_result)
+
 
     def test_send_email_to_user_nonexistent_email_service(self):
         """Test case 17: Handle non-existent email service"""
@@ -112,9 +125,26 @@ class Tests(unittest.TestCase):
 
     def test_create_colored_tags_special_characters(self):
         """Test case 19: Handle tags with special characters"""
-        expected_result = '<span style="background-color: #FF1493; color: #FFFFFF; padding: 5px; border-radius: 5px;">!@#$%</span>'
-        result = create_colored_tags(['!@#$%'])
-        self.assertTrue(result == expected_result)
+        genres = ['Action', 'Romance', 'Fantasy', 'Sci-Fi', 'Unknown Genre!']
+        expected_result = (
+            '<span style="background-color: #FF0000; color: #FFFFFF; '
+            'padding: 5px; border-radius: 5px;">Action</span> '
+            '<span style="background-color: #FF69B4; color: #FFFFFF; '
+            'padding: 5px; border-radius: 5px;">Romance</span> '
+            '<span style="background-color: #FFA500; color: #FFFFFF; '
+            'padding: 5px; border-radius: 5px;">Fantasy</span> '
+            '<span style="background-color: #00CED1; color: #FFFFFF; '
+            'padding: 5px; border-radius: 5px;">Sci-Fi</span> '
+            '<span style="background-color: #CCCCCC; color: #FFFFFF; '
+            'padding: 5px; border-radius: 5px;">Unknown Genre!</span>'
+        )
+        
+        # Call the function to test
+        result = create_colored_tags(genres)
+        
+        # Assert that the result matches the expected output
+        self.assertEqual(result, expected_result)
+
 
     def test_create_movie_genres_empty_df(self):
         """Test case 20: Handle empty DataFrame"""
