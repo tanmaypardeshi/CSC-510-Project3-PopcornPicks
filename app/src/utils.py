@@ -76,7 +76,7 @@ def beautify_feedback_data(data):
 
 def create_movie_genres(movie_genre_df):
     """
-        Utility function for creating a dictionary for movie-genres mapping
+    Utility function for creating a dictionary for movie-genres mapping
     """
     # Create a dictionary to map movies to their genres
     movie_to_genres = {}
@@ -84,8 +84,16 @@ def create_movie_genres(movie_genre_df):
     # Iterating on all movies to create the map
     for row in movie_genre_df.iterrows():
         movie = row[1]['title']
-        genres = row[1]['genres'].split('|')
+        genres = row[1]['genres']  # 获取genres字段
+
+        # 检查genres是否为None
+        if genres is None:
+            genres = []  # 如果是None，设置为空列表
+        else:
+            genres = genres.split('|')  # 否则进行split操作
+
         movie_to_genres[movie] = genres
+    
     return movie_to_genres
 
 def send_email_to_user(recipient_email, categorized_data):
