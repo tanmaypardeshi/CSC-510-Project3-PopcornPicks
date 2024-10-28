@@ -2,26 +2,32 @@
 
 {% block extracss %}
 <div class="container" style="margin-top: 60px;">
-  <div class="heading1">
-      <!-- Heading for new movies -->
-      <h2><center>🍿 New Movies Coming Soon! 🍿</center></h2>
-      <h6 class="tipHeader">✨Tip: Stay tuned for the latest releases! ✨</h6>
+  <div class="heading1 text-center">
+      <!-- Heading for popular people -->
+      <h2>🍿 Let's See the Most Popular People! 🍿</h2>
+      <h6 class="tipHeader">✨ Keep an Eye Out for the Latest Updates! ✨</h6>
   </div>
+  
   {% if show_message %}
-  <div class="alert alert-danger" role="alert">
-    Could not fetch new movies
+  <div class="alert alert-danger text-center" role="alert">
+    Could not fetch popular people
   </div>
   {% else %}
   <div class="row" style="margin-top: 25px;">
       <div class="col-md-12">
-          <!-- Movie List Section -->
-          <h2>New Releases:</h2>
-          <ul class="list-group" id="newMoviesList">
-              <!-- Loop through the movies and dynamically generate list items -->
-              {% for movie in movies %}
-                  <li class="list-group-item">
-                      <h3>{{ movie.title }}</h3>
-                      <p>Release Date: {{ movie.release_date }}</p>
+          <!-- Popular People Section -->
+          <h2 class="text-center">Popular People:</h2>
+          <ul class="list-group" id="popularPeopleList">
+              <!-- Loop through the popular people and dynamically generate list items -->
+              {% for person in people %}
+                  <li class="list-group-item d-flex align-items-center" style="border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
+                      <div style="flex: 0 0 100px; text-align: center;">
+                          <img src="https://image.tmdb.org/t/p/w200{{ person.profile_path }}" alt="{{ person.name }}" class="img-fluid rounded-circle" onerror="this.onerror=null; this.src='https://via.placeholder.com/100';">  <!-- 添加图片，设置为圆形 -->
+                      </div>
+                      <div style="flex: 1; padding-left: 15px;">
+                          <h3 class="mb-0">{{ person.name }}</h3>  <!-- 显示人物名称 -->
+                          <p style="margin: 0;">Popularity: {{ person.popularity }}</p>  <!-- 显示受欢迎程度 -->
+                      </div>
                   </li>
               {% endfor %}
           </ul>

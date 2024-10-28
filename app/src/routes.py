@@ -284,7 +284,7 @@ def new_movies():
     """
     # Replace YOUR_TMDB_API_KEY with your actual TMDb API key
     tmdb_api_key = TMDB_API_KEY
-    endpoint = 'https://api.themoviedb.org/3/movie/upcoming'
+    endpoint = 'https://api.themoviedb.org/3/trending/movie/day?language=en-US'
 
     # Set up parameters for the request
     params = {
@@ -318,16 +318,16 @@ def popular_people():
     """
     # Replace YOUR_TMDB_API_KEY with your actual TMDb API key
     tmdb_api_key = TMDB_API_KEY
-    endpoint = 'https://api.themoviedb.org/3/movie/upcoming'
+    endpoint = 'https://api.themoviedb.org/3/trending/person/day?language=en-US'
 
     # Set up parameters for the request
     params = {
         'api_key': tmdb_api_key,
-        'language': 'en-US',  # You can adjust the language as needed
-        'page': 1  # You may want to paginate the results if there are many
+        'language': 'en-US',  # 你可以根据需要调整语言
+        'page': 1  # 如果有很多结果，你可能想要分页
     }
     try:
-    # Make the request to TMDb API
+        # Make the request to TMDb API
         response = requests.get(endpoint, params=params, timeout=10)
     except (requests.exceptions.HTTPError,
             requests.exceptions.ConnectionError,
@@ -335,11 +335,12 @@ def popular_people():
             requests.exceptions.RequestException
             ) as e:
         return render_template('popular_people.html', show_message=True,
-                           message=e)
-    if response.status_code == 200:
-        # Parse the JSON response
-        movie_data = response.json().get('results', [])
+                               message=str(e))  # 将错误信息转换为字符串
 
-        return render_template('popular_people.html', movies=movie_data, user=current_user)
+    if response.status_code == 200:
+        # 解析 JSON 响应
+        people_data = response.json().get('results', [])  # 获取结果中的热门人物数据
+
+        return render_template('popular_people.html', people=people_data, user=current_user)  # 使用people而不是movies
     return render_template('popular_people.html', show_message=True,
                            message='Error fetching people data')
