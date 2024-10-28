@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Series</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% if show_message %}
+        <div class="alert alert-danger" role="alert">
+            Could not fetch new series
+        </div>
+        {% else %}
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-md-12">
+                <!-- Series List Section -->
+                <h2>New Series:</h2>
+                <ul class="list-group" id="newSeriesList">
+                    <!-- Loop through the series and dynamically generate list items -->
+                    {% for series in series %}
+                        <li class="list-group-item">
+                            <h3>{{ series.name }}</h3>
+                            <p>Release Date: {{ series.first_air_date }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
