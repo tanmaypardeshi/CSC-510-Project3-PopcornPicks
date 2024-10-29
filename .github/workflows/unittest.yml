@@ -3,7 +3,7 @@ name: Unittest
 on:
   push:
     branches:
-      - '**'
+      - '*'
 
 jobs:
   build:
@@ -37,4 +37,3 @@ jobs:
       run: |
         cd app
         pytest test/test_chat.py
-    
