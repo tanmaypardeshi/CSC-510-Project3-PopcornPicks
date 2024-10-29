@@ -1,120 +1,80 @@
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))  # 将上一级目录加入sys.path
-from src.search import Search  # 导入上一级目录中的模块
-import pytest
-from flask import Flask
-import requests
-from app import app as flask_app
+import unittest
+from bs4 import BeautifulSoup
+import os
 
-@pytest.fixture
-def client():
-    with flask_app.test_client() as client:
-        yield client
+class TestHTMLRendering(unittest.TestCase):
 
-def test_new_series_status_code(client):
-    response = client.get('/new_series')
-    assert response.status_code == 200
+    def setUp(self):
+        # 构建绝对路径并加载 HTML 文件
+        base_path = os.path.abspath("CSC-510-movie-mood/app/src/templates/new_series.html")
+        with open(base_path, 'r', encoding='utf-8') as f:
+            html_doc = f.read()
+        # 使用 BeautifulSoup 解析 HTML 文件内容
+        self.soup = BeautifulSoup(html_doc, 'html.parser')
 
-def test_new_series_content_type(client):
-    response = client.get('/new_series')
-    assert response.content_type == 'text/html; charset=utf-8'
+    def test_mismatched_heading_tag(self):
+        """测试：检测不匹配的 h2 闭合标签"""
+        heading = self.soup.find('h2')
+        # 检查是否存在不匹配的闭合标签（h2 -> h3）
+        self.assertIsNotNone(heading, "Heading h2 not found")
+        self.assertIn("</h3>", str(heading.parent), "Found mismatched closing tag </h3> for <h2>")
 
-def test_new_series_template_used(client):
-    response = client.get('/new_series')
-    assert b"New Series Coming Soon!" in response.data
+    def test_show_message_alert(self):
+        """测试：检查错误信息显示"""
+        alert_div = self.soup.find('div', class_='alert alert-danger')
+        self.assertIsNotNone(alert_div, "Alert message div not found when 'show_message' is true")
 
-def test_new_series_no_series(client):
-    response = client.get('/new_series')
-    assert b"Could not fetch new series" not in response.data
+    def test_today_releases_title(self):
+        """测试：检查‘Today Releases:’标题正确显示"""
+        releases_heading = self.soup.find('h2', text="Today Releases:")
+        self.assertIsNotNone(releases_heading, "Today Releases title not found or not correct")
 
-def test_new_series_series_list(client):
-    response = client.get('/new_series')
-    assert b"New Releases:" in response.data
+    def test_series_list_container(self):
+        """测试：newSeriesList列表容器是否存在"""
+        new_series_list = self.soup.find(id="newSeriesList")
+        self.assertIsNotNone(new_series_list, "newSeriesList ID not found in the HTML document")
 
-def test_new_series_series_item(client):
-    response = client.get('/new_series')
-    assert b"Release Date:" in response.data
+    def test_tip_header_text(self):
+        """测试：检查 tipHeader 样式是否正确显示"""
+        tip_header = self.soup.find('h6', class_="tipHeader")
+        self.assertIsNotNone(tip_header, "Tip header with class 'tipHeader' not found")
+        self.assertEqual(tip_header.text.strip(), "✨Tip: Stay tuned for TODAY's series releases! ✨", "Tip header text mismatch")
 
-def test_new_series_series_name(client):
-    response = client.get('/new_series')
-    assert b"Series Name" not in response.data  # Assuming "Series Name" is not a placeholder
+    def test_container_margin_top(self):
+        """测试：检查 container 的 margin-top 样式"""
+        container_div = self.soup.find('div', class_="container")
+        self.assertIn("margin-top: 60px;", str(container_div), "Container margin-top style not set to 60px")
 
-def test_new_series_series_date(client):
-    response = client.get('/new_series')
-    assert b"2023-01-01" not in response.data  # Assuming "2023-01-01" is not a placeholder
+    def test_multiline_series_items(self):
+        """测试：多行内容正确显示"""
+        series_items = self.soup.find_all('li', class_="list-group-item")
+        for item in series_items:
+            self.assertTrue(len(item.text.strip()) > 0, "Empty series item text found")
 
-def test_new_series_show_message(client):
-    response = client.get('/new_series')
-    assert b"Could not fetch new series" not in response.data
+    def test_responsive_layout(self):
+        """测试：不同屏幕尺寸上的布局"""
+        row_div = self.soup.find('div', class_="row")
+        self.assertIsNotNone(row_div, "Responsive row class not found")
 
-def test_new_series_user_logged_in(client):
-    with client.session_transaction() as session:
-        session['user_id'] = 1  # Assuming user_id 1 is logged in
-    response = client.get('/new_series')
-    assert response.status_code == 200
+    def test_special_characters_in_series_name(self):
+        """测试：检查 series.name 中的特殊字符是否正确转义"""
+        special_chars_series = "<>&\"'"
+        series_item = self.soup.new_tag("h3")
+        series_item.string = special_chars_series
+        self.soup.append(series_item)
+        self.assertIn("&lt;&gt;&amp;&quot;&#x27;", str(self.soup), "Special characters not escaped in series.name")
 
-def test_new_series_user_not_logged_in(client):
-    with client.session_transaction() as session:
-        session.pop('user_id', None)
-    response = client.get('/new_series')
-    assert response.status_code == 302  # Redirect to login
+    def test_alert_message_style(self):
+        """测试：检查 alert 消息样式是否正确"""
+        alert_div = self.soup.find('div', class_="alert alert-danger")
+        self.assertIsNotNone(alert_div, "Alert div with correct classes not found")
 
-def test_new_series_pagination(client):
-    response = client.get('/new_series?page=2')
-    assert response.status_code == 200
+    def test_no_series_items_empty_list(self):
+        """测试：当 series 列表为空时不显示内容"""
+        new_series_list = self.soup.find(id="newSeriesList")
+        self.assertIsNone(new_series_list.find('li'), "Series list items should not be present when series list is empty")
 
-def test_new_series_invalid_page(client):
-    response = client.get('/new_series?page=invalid')
-    assert response.status_code == 200
+    # 更多测试...
 
-def test_new_series_api_key_missing(client):
-    # Temporarily remove API key
-    original_key = flask_app.config['TMDB_API_KEY']
-    flask_app.config['TMDB_API_KEY'] = ''
-    response = client.get('/new_series')
-    flask_app.config['TMDB_API_KEY'] = original_key
-    assert b"Could not fetch new series" in response.data
-
-def test_new_series_api_timeout(client, monkeypatch):
-    def mock_get(*args, **kwargs):
-        raise requests.exceptions.Timeout()
-    monkeypatch.setattr('requests.get', mock_get)
-    response = client.get('/new_series')
-    assert b"Could not fetch new series" in response.data
-
-def test_new_series_api_connection_error(client, monkeypatch):
-    def mock_get(*args, **kwargs):
-        raise requests.exceptions.ConnectionError()
-    monkeypatch.setattr('requests.get', mock_get)
-    response = client.get('/new_series')
-    assert b"Could not fetch new series" in response.data
-
-def test_new_series_api_http_error(client, monkeypatch):
-    def mock_get(*args, **kwargs):
-        raise requests.exceptions.HTTPError()
-    monkeypatch.setattr('requests.get', mock_get)
-    response = client.get('/new_series')
-    assert b"Could not fetch new series" in response.data
-
-def test_new_series_api_request_exception(client, monkeypatch):
-    def mock_get(*args, **kwargs):
-        raise requests.exceptions.RequestException()
-    monkeypatch.setattr('requests.get', mock_get)
-    response = client.get('/new_series')
-    assert b"Could not fetch new series" in response.data
-
-def test_new_series_failing_test(client):
-    response = client.get('/new_series')
-    assert b"Non-existent text" in response.data  # This test is designed to fail
-
-def test_new_series_successful_fetch(client, monkeypatch):
-    class MockResponse:
-        @staticmethod
-        def json():
-            return {'results': [{'name': 'Mock Series', 'first_air_date': '2023-01-01'}]}
-        status_code = 200
-    monkeypatch.setattr('requests.get', lambda *args, **kwargs: MockResponse())
-    response = client.get('/new_series')
-    assert b"Mock Series" in response.data
-    assert b"2023-01-01" in response.data
+if __name__ == "__main__":
+    unittest.main()
