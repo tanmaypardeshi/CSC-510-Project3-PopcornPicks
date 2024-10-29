@@ -149,6 +149,8 @@ This project is now hosted on the free web service [Render](https://render.com)!
 The deployment CI is set up such that any commits to the master branch will trigger a reploy of the project. This generally takes around 2-3 minutes, so if you try and access the site right after committing and receive a 502, it is most likely that the deploy has not finished yet
 
 ### Lists Feature
+![Lists](./asset/ListsFeature.gif)
+
 We have added a new 'Lists' feature. The users can create a list of (at least) five movies they would like to recommend to other users. The users can view the lists of other users on the 'Lists' page. It creates a sense of community. They are recommendations from other human users and not a computer.
 
 ### Filtering options
