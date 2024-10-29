@@ -318,7 +318,7 @@ def new_series():
     """
     # Replace YOUR_TMDB_API_KEY with your actual TMDb API key
     tmdb_api_key = TMDB_API_KEY
-    endpoint = 'https://api.themoviedb.org/3/tv/on_the_air'
+    endpoint = 'https://api.themoviedb.org/3/tv/airing_today'
 
     # Set up parameters for the request
     params = {
