@@ -178,6 +178,133 @@ $(document).ready(function() {
     });
   });
 
+  $("#create").click(function() {
+    $("#loader").attr("class", "d-flex justify-content-center");
+
+    var movie_list = [];
+
+    $("#selectedMovies li").each(function () {
+      movie_list.push($(this).text());
+    });
+    var movies = { movie_list: movie_list};
+
+    // Clear the existing recommendations
+    $("#listMovies").empty();
+    // if movies list empty then throw an error box saying select atleast 1
+    // movie!!
+    if (movie_list.length < 5) {
+      alert("Select 5 movies!!");
+    }
+
+    // fetching poster using /getposterurl
+
+    function fetchPosterURL(imdbID) {
+      var posterURL = null;
+      $.ajax({
+        type : "GET",
+        url : "/getPosterURL",
+        dataType : "json",
+        data : {imdbID : imdbID},
+        async : false,
+        success : function(response) { posterURL = response.posterURL; },
+        error : function(
+            error) { console.log("Error fetching poster URL: " + error); },
+      });
+
+      return posterURL;
+    };
+
+    $.ajax({
+      type : "POST",
+      url : "/displaylist",
+      dataType : "json",
+      contentType : "application/json;charset=UTF-8",
+      traditional : "true",
+      cache : false,
+      data : JSON.stringify(movies),
+      success : function(response) {
+        var data = JSON.parse(response);
+        var list = $("#listMovies");
+        var title = $("<h2>List of Movies</h2>");
+        var modalParent = document.getElementById("modalParent");
+        $("#recommended_block").append(title);
+        var row = $('<div class="row"></div>');
+        for (var i = 0; i < data.length; i++) {
+          if (i > 0 && i % 3 === 0) {
+            // After every 3 movies, append the row to the list and create a new row
+            list.append(row);
+            row = $('<div class="row"></div>'); // Create a new row for the next set of 3 movies
+          }
+          var column = $('<div class="col-md-4"></div>');
+          var card = `<div class="card movie-card">
+            <div class="row no-gutters">
+              <div class="col-md-6">
+                <div class="card-body">
+                  <a type="button" class="btn btn-warning ms-2" href="/movies?movie_id=${data[i].movieId}">${data[i].title}</a>
+                  <h6 class="card-subtitle mb-2 text-muted">${data[i].runtime} minutes</h6>
+                  <p class="card-text" hidden>${data[i].overview}</p>
+                  <a target="_blank" href="/movies?movie_id=${data[i].movieId}" class="btn btn-primary" hidden>Check out the movie!</a>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="modalButton-${i}" data-bs-target="#reviewModal-${i}" hidden>Write a review</button>
+                  <div class="movieId" hidden>${data[i].movieId}</div>
+                  <div class="genres" hidden>${data[i].genres}</div>
+                  <div class="imdb_id" hidden>${data[i].imdb_id}</div>
+                  <div class="poster_path" hidden>${data[i].poster_path}</div>
+                  <div class="index" hidden>${i}</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                  <img src="${fetchPosterURL(data[i].imdb_id)}" alt="Movie Poster" class="poster-image" style="width: 75%; height: auto; margin: 0;">
+              </div>
+            </div>`
+          var modal = `
+          <div class="modal fade" id="reviewModal-${
+              i}" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="reviewModaLabel">Write your review</h5>
+                  <button type="button" onclick="modalOnClose(${
+              i})" id="closeModal-${
+              i}" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <textarea class="form-control" rows=10 id="review-${
+              i}"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="score-${i}" class="form-label">Select Score:</label>
+                    <select class="form-select" id="score-${i}">
+                        <option value="1.0">1.0</option>
+                        <option value="2.0">2.0</option>
+                        <option value="3.0">3.0</option>
+                        <option value="4.0">4.0</option>
+                        <option value="5.0">5.0</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" onclick="modalOnClick(${
+              i})" id="saveChanges-${
+              i}" class="btn btn-primary modal-save">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>`
+          modalParent.innerHTML += modal;
+          column.append(card);
+          row.append(column);
+        }
+        list.append(row)
+        $("#loader").attr("class", "d-none");
+      },
+      error : function(error) {
+        console.log("ERROR ->" + error);
+        $("#loader").attr("class", "d-none");
+      },
+    });
+  });
+
   window.addEventListener("popstate", function(event) {
     // Check if the user is navigating back
     if (event.state && event.state.page === "redirect") {

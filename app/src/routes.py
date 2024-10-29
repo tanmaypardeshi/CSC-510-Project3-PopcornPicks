@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 from src import app, db, bcrypt, socket
 from src.search import Search
 from src.item_based import recommend_for_new_user
-from src.models import User, Movie, Review
+from src.models import User, Movie, Review, ListMovie
 import pandas as pd
 
 app_dir = os.path.dirname(os.path.abspath(__file__))
@@ -128,6 +128,37 @@ def profile_page():
         reviews.append(obj)
     return render_template("profile.html", user=current_user, reviews=reviews, search=False)
 
+@app.route("/userlist_page", methods=["GET"])
+@login_required
+def userlist_page():
+    """
+        User List Page
+    """
+    user_objects = User.query.all()
+    movies = pd.read_csv(os.path.join(project_dir, "data", "movies.csv"))
+    users_list = []
+    for users in user_objects:
+        obj1 = {
+            "username": users.username
+        }
+        list_objects = ListMovie.query.filter_by(user_id = users.id)
+        movies_list = []
+        for obj in list_objects:
+            list_movies = movies[movies['movieId'] == obj.movieId]
+            list_movies = list_movies.iloc[0]
+            obj2 = {
+                "title": list_movies['title'],
+                "runtime": list_movies['runtime'],
+                "overview": list_movies['overview'],
+                "genres": list_movies['genres'],
+                "imdb_id": list_movies['imdb_id'],
+                "movieId": list_movies['movieId']
+            }
+            movies_list.append(obj2)
+        obj1["movies_list"] = movies_list
+        users_list.append(obj1)
+    return render_template("userlist.html", user=current_user, search=False, users_list = users_list)
+
 @app.route("/search_page", methods=["GET"])
 @login_required
 def search_page():
@@ -149,6 +180,7 @@ def predict():
     release_year = data.get("year")
     training_data = []
     for movie in data1:
+        movie = movie.replace("Delete", "")
         movie_with_rating = {"title": movie, "rating": 5.0}
         if movie_with_rating not in training_data:
             training_data.append(movie_with_rating)
@@ -159,6 +191,35 @@ def predict():
         if movie_with_rating not in training_data:
             training_data.append(movie_with_rating)
     data = recommend_for_new_user(training_data, selected_genre, release_year)
+    data = data.to_json(orient="records")
+    return jsonify(data)
+
+@app.route("/displaylist", methods=["POST"])
+def displaylist():
+    """
+    Predicts movie recommendations based on user ratings.
+    """
+    data = json.loads(request.data)
+    user_object = User.query.filter_by(username=current_user.username).first()
+    userid = user_object.id
+    data1 = data["movie_list"]
+    movies = pd.read_csv(os.path.join(project_dir, "data", "movies.csv"))
+    training_data = []
+    for movie in data1:
+        movie = movie.replace("Delete", "")
+        movie_with_rating = {"title": movie}
+        if movie_with_rating not in training_data:
+            training_data.append(movie_with_rating)
+    user = pd.DataFrame(training_data)
+    data = movies[movies["title"].isin(user["title"])]
+    movieIds = data["movieId"].tolist()
+    for id in movieIds:
+        list = ListMovie(
+            user_id = userid,
+            movieId = id
+        )
+        db.session.add(list)
+        db.session.commit()
     data = data.to_json(orient="records")
     return jsonify(data)
 
@@ -341,3 +402,12 @@ def new_movies():
         return render_template('new_movies.html', movies=movie_data, user=current_user)
     return render_template('new_movies.html', show_message=True,
                            message='Error fetching movie data')
+
+@app.route("/list", methods=["GET"])
+def list_page():
+    """
+        Renders chat room page
+    """
+    if current_user.is_authenticated:
+        return render_template("list.html", user=current_user)
+    return redirect(url_for('landing_page'))
