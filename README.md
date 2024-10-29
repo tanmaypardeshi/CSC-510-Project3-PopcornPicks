@@ -154,14 +154,14 @@ The deployment CI is set up such that any commits to the master branch will trig
 We have added a new 'Lists' feature. The users can create a list of (at least) five movies they would like to recommend to other users. The users can view the lists of other users on the 'Lists' page. It creates a sense of community. They are recommendations from other human users and not a computer.
 
 ### Filtering options
-![Filtering](./asset/Filetring.gif)
+![Filtering](./asset/Filtering.gif)
 
 We have added two filtering options for users: Genres and Release Year. Users can now personalize their recommendations by limiting them to a particular genre or a movie released in a specific year. 
 
 ### Recommendation Logic
 ![Review](./asset/Review.gif)
 
-We have made changes to the recommendation system. Users can review the movies they are recommended to watch, and their reviews are now included as feedback to our recommendation code logic. The training data includes these past reviews from the user in addition to the five movies they select. This makes the recommendations better suited to the tastes of the user. Release year and genres selected by the user are also considered when selecting the top nine recommendations.
+We have made changes to the recommendation system. Users can review the movies they are recommended to watch, and their reviews are now included as feedback to our recommendation code logic. The users can now add scores with their reviews instead of just text. The training data includes these past reviews with the scores from the user in addition to the five movies they select. This makes the recommendations better suited to the tastes of the user. Release year and genres selected by the user are also considered when selecting the top nine recommendations.
 
 ### UI Changes
 ![UI](./asset/UIChanges.gif)
