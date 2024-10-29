@@ -13,11 +13,11 @@ from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_socketio import emit
 from dotenv import load_dotenv
+import pandas as pd
 from src import app, db, bcrypt, socket
 from src.search import Search
 from src.item_based import recommend_for_new_user
 from src.models import User, Movie, Review, ListMovie
-import pandas as pd
 
 app_dir = os.path.dirname(os.path.abspath(__file__))
 code_dir = os.path.dirname(app_dir)
@@ -157,7 +157,9 @@ def userlist_page():
             movies_list.append(obj2)
         obj1["movies_list"] = movies_list
         users_list.append(obj1)
-    return render_template("userlist.html", user=current_user, search=False, users_list = users_list)
+    return render_template(
+                "userlist.html", user=current_user, search=False, users_list = users_list
+            )
 
 @app.route("/search_page", methods=["GET"])
 @login_required
@@ -212,13 +214,13 @@ def displaylist():
             training_data.append(movie_with_rating)
     user = pd.DataFrame(training_data)
     data = movies[movies["title"].isin(user["title"])]
-    movieIds = data["movieId"].tolist()
-    for id in movieIds:
-        list = ListMovie(
+    movie_ids = data["movieId"].tolist()
+    for movie_id in movie_ids:
+        movie_list = ListMovie(
             user_id = userid,
-            movieId = id
+            movieId = movie_id
         )
-        db.session.add(list)
+        db.session.add(movie_list)
         db.session.commit()
     data = data.to_json(orient="records")
     return jsonify(data)
