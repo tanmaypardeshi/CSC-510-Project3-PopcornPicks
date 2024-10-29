@@ -13,11 +13,11 @@ from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_socketio import emit
 from dotenv import load_dotenv
+import pandas as pd
 from src import app, db, bcrypt, socket
 from src.search import Search
 from src.item_based import recommend_for_new_user
 from src.models import User, Movie, Review, ListMovie
-import pandas as pd
 
 app_dir = os.path.dirname(os.path.abspath(__file__))
 code_dir = os.path.dirname(app_dir)
