@@ -157,7 +157,9 @@ def userlist_page():
             movies_list.append(obj2)
         obj1["movies_list"] = movies_list
         users_list.append(obj1)
-    return render_template("userlist.html", user=current_user, search=False, users_list = users_list)
+    return render_template(
+                "userlist.html", user=current_user, search=False, users_list = users_list
+            )
 
 @app.route("/search_page", methods=["GET"])
 @login_required
@@ -212,13 +214,13 @@ def displaylist():
             training_data.append(movie_with_rating)
     user = pd.DataFrame(training_data)
     data = movies[movies["title"].isin(user["title"])]
-    movieIds = data["movieId"].tolist()
-    for id in movieIds:
-        list = ListMovie(
+    movie_ids = data["movieId"].tolist()
+    for movie_id in movie_ids:
+        movie_list = ListMovie(
             user_id = userid,
-            movieId = id
+            movieId = movie_id
         )
-        db.session.add(list)
+        db.session.add(movie_list)
         db.session.commit()
     data = data.to_json(orient="records")
     return jsonify(data)

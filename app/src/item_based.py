@@ -6,20 +6,23 @@ This code is licensed under MIT license (see LICENSE for details)
 """
 
 import os
-import pandas as pd
 import re
+import pandas as pd
 
 app_dir = os.path.dirname(os.path.abspath(__file__))
 code_dir = os.path.dirname(app_dir)
 project_dir = os.path.dirname(code_dir)
 
 def extract_year_from_title(title):
+    """
+    Extracts the year from a movie title string.
+    """
     match = re.search(r'\((\d{4})\)', title)
     if match:
         return int(match.group(1))  # Extract the year as an integer
     return None
 
-def recommend_for_new_user(user_rating, selected_genre=None, selected_year=None):
+def recommend_for_new_user(user_rating, selected_genre=None, selected_year=None): # pylint: disable=too-many-locals
     """
     Generates a list of recommended movie titles for a new user based on their ratings.
     """
