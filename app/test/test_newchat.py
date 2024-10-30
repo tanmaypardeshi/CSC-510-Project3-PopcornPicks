@@ -17,7 +17,7 @@ class ChatSystem:
 
     # Add a new user if not already added
     def add_user(self, username):
-        if username:
+        if username and username not in self.allowed_users:
             self.allowed_users.add(username)
             return True  # User added successfully
         return False  # User already exists or invalid input
