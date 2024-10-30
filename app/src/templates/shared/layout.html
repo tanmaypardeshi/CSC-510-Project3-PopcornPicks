@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PopcornPicks</title>
+    <title>Movie Mood</title>
     <!-- Below links to our css files as well our favicon file(the little image that represents the website) -->
     <link
       rel="stylesheet"
@@ -56,11 +56,11 @@
       id="landingTopNav"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('landing_page') }}">PopcornPicks🍿</a>
+        <a class="navbar-brand" href="{{ url_for('landing_page') }}">Movie Mood🍿</a>
         {% if current_user.is_authenticated %}
           <div class="ms-auto">Welcome {{ user }}!</div>
           <a type="button" class="btn btn-success ms-auto" href="{{ url_for('chat_page') }}">Chat Room</a>
-          <a type="button" class="btn btn-warning ms-2" href="{{ url_for('movie_page') }}">PopcornPicks Hub</a>
+          <a type="button" class="btn btn-warning ms-2" href="{{ url_for('movie_page') }}">Movie Mood Hub</a>
           <a type="button" class="btn btn-danger ms-1" href="{{ url_for('new_movies') }}">New Movies</a>
           {% if search is true %}
             <a type="button" class="btn btn-primary ms-2" href="{{url_for('profile_page') }}">Profile Page</a>
