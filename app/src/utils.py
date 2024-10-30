@@ -15,9 +15,11 @@ import pandas as pd
 
 def create_colored_tags(genres):
     """
-        Utitilty function to create colored tags for different
+        Utility function to create colored tags for different
         movie genres
     """
+    if not isinstance(genres, list) or not all(isinstance(genre, str) for genre in genres):
+        raise ValueError("Input must be a list of strings representing genres.")
     # Define colors for specific genres
     genre_colors = {
         'Musical': '#FF1493',  # DeepPink
@@ -44,8 +46,7 @@ def create_colored_tags(genres):
     tags = []
     for genre in genres:
         color = genre_colors.get(genre, '#CCCCCC')  # Default color if not found
-        tag = f'<span style="background-color: {color}; color: #FFFFFF; \
-            padding: 5px; border-radius: 5px;">{genre}</span>'
+        tag = f'<span style="background-color: {color}; color: #FFFFFF; padding: 5px; border-radius: 5px;">{genre}</span>'
         tags.append(tag)
     return ' '.join(tags)
 
@@ -76,7 +77,7 @@ def beautify_feedback_data(data):
 
 def create_movie_genres(movie_genre_df):
     """
-        Utility function for creating a dictionary for movie-genres mapping
+    Utility function for creating a dictionary for movie-genres mapping
     """
     # Create a dictionary to map movies to their genres
     movie_to_genres = {}
@@ -84,8 +85,16 @@ def create_movie_genres(movie_genre_df):
     # Iterating on all movies to create the map
     for row in movie_genre_df.iterrows():
         movie = row[1]['title']
-        genres = row[1]['genres'].split('|')
+        genres = row[1]['genres']  # get genres field
+
+        # check if genres is None
+        if genres is None:
+            genres = []  # If None, set empty list
+        else:
+            genres = genres.split('|')  # otherwise split
+
         movie_to_genres[movie] = genres
+    
     return movie_to_genres
 
 def send_email_to_user(recipient_email, categorized_data):

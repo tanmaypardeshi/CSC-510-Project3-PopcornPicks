@@ -1,0 +1,37 @@
+{% extends 'shared/layout.html' %}
+
+{% block extracss %}
+<div class="container" style="margin: 100px auto 0 auto; background-color: rgba(255, 255, 255, 0.75); border-radius: 15px; padding: 30px; width: 80%;">
+    <div class="heading1 text-center mb-4">
+        <h2 style="color: #1c1c1e; font-size: 2rem;">🍿 Discover the Most Popular People! 🍿</h2>
+        <h6 class="tipHeader" style="color: #3a3a3c; font-size: 1.2rem;">✨ Stay Tuned for the Latest Updates! ✨</h6>
+    </div>
+
+    {% if show_message %}
+    <div class="alert alert-danger text-center" role="alert">
+        Could not fetch popular people
+    </div>
+    {% else %}
+    <div class="row" style="margin-top: 25px;">
+        <div class="col-md-12">
+            <h2 class="text-center" style="color: #000000; font-weight: 600;">Popular People:</h2>
+            <ul class="list-group" id="popularPeopleList">
+                {% for person in people %}
+                <li class="list-group-item d-flex align-items-start" style="border: 1px solid #ddd; border-radius: 10px; margin-bottom: 20px; padding: 20px;">
+                    <div style="flex: 0 0 120px; text-align: center;">
+                        <img src="https://image.tmdb.org/t/p/w200{{ person.profile_path }}" alt="{{ person.name }}" class="img-fluid rounded-circle" onerror="this.onerror=null; this.src='https://via.placeholder.com/120';">
+                    </div>
+                    <div style="flex: 1; padding-left: 15px;">
+                        <h3 class="mb-1" style="color: #1c1c1e;">{{ person.name }}</h3>
+                        <p style="margin: 0; font-weight: bold; color: #333;">Popularity: {{ person.popularity }}</p>
+                        <p style="margin: 5px 0; color: #2c2c2e;">{{ person.biography }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<br /><br />
+{% endblock %}

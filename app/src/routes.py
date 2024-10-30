@@ -284,7 +284,7 @@ def new_movies():
     """
     # Replace YOUR_TMDB_API_KEY with your actual TMDb API key
     tmdb_api_key = TMDB_API_KEY
-    endpoint = 'https://api.themoviedb.org/3/movie/upcoming'
+    endpoint = 'https://api.themoviedb.org/3/trending/movie/day?language=en-US'
 
     # Set up parameters for the request
     params = {
@@ -309,3 +309,43 @@ def new_movies():
         return render_template('new_movies.html', movies=movie_data, user=current_user)
     return render_template('new_movies.html', show_message=True,
                            message='Error fetching movie data')
+
+@app.route('/popular_people', methods=["GET"])
+@login_required
+def popular_people():
+    """
+    API to fetch popular people
+    """
+    tmdb_api_key = TMDB_API_KEY
+    endpoint = 'https://api.themoviedb.org/3/trending/person/day?language=en-US'
+
+    params = {
+        'api_key': tmdb_api_key,
+        'language': 'en-US',
+        'page': 1
+    }
+    
+    try:
+        response = requests.get(endpoint, params=params, timeout=10)
+    except (requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout,
+            requests.exceptions.RequestException) as e:
+        return render_template('popular_people.html', show_message=True, message=e)
+
+    if response.status_code == 200:
+        # Parse the JSON response
+        people_data = response.json().get('results', [])
+        # Sort by popularity in descending order
+        sorted_people = sorted(people_data, key=lambda x: x['popularity'], reverse=True)
+
+        # Fetch additional details for each person
+        for person in sorted_people:
+            person_id = person['id']
+            details_response = requests.get(f'https://api.themoviedb.org/3/person/{person_id}?api_key={tmdb_api_key}&language=en-US')
+            if details_response.status_code == 200:
+                person['biography'] = details_response.json().get('biography', 'No biography available.')
+
+        return render_template('popular_people.html', people=sorted_people, user=current_user)
+    
+    return render_template('popular_people.html', show_message=True, message='Error fetching people data')
