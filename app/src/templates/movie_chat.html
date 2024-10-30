@@ -77,7 +77,7 @@
     const usernameInput = document.getElementById('username_input').value;
 
     // Add a new user
-    if (usernameInput && !allowedUsers.has(usernameInput)) {
+    if (usernameInput) {
       allowedUsers.add(usernameInput);
       updateUserList();
       document.getElementById('username_input').value = ''; // Clear the input field
