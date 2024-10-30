@@ -309,3 +309,37 @@ def new_movies():
         return render_template('new_movies.html', movies=movie_data, user=current_user)
     return render_template('new_movies.html', show_message=True,
                            message='Error fetching movie data')
+
+@app.route('/new_series', methods=["GET"])
+@login_required
+def new_series():
+    """
+        API to fetch new series
+    """
+    # Replace YOUR_TMDB_API_KEY with your actual TMDb API key
+    tmdb_api_key = TMDB_API_KEY
+    endpoint = 'https://api.themoviedb.org/3/tv/airing_today'
+
+    # Set up parameters for the request
+    params = {
+        'api_key': tmdb_api_key,
+        'language': 'en-US',  # You can adjust the language as needed
+        'page': 1  # You may want to paginate the results if there are many
+    }
+    try:
+        # Make the request to TMDb API
+        response = requests.get(endpoint, params=params, timeout=10)
+    except (requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout,
+            requests.exceptions.RequestException
+            ) as e:
+        return render_template('new_series.html', show_message=True,
+                               message=e)
+    if response.status_code == 200:
+        # Parse the JSON response
+        series_data = response.json().get('results', [])
+
+        return render_template('new_series.html', series=series_data, user=current_user)
+    return render_template('new_series.html', show_message=True,
+                           message='Error fetching series data')
