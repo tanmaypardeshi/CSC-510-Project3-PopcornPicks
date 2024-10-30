@@ -46,7 +46,12 @@
 
 <script>
   const allowedUsers = new Set(); // Set to store allowed usernames
-  const currentUser = '{{ user }}'; // Current username
+  const currentUser = normalizeUsername('{{ user }}'); // Current username
+
+  // Function to normalize a username (trim and convert to lowercase)
+  function normalizeUsername(username) {
+    return username.trim().toLowerCase();
+  }
 
   // Initialize user list when the page loads
   window.onload = function() {
@@ -74,25 +79,38 @@
 
   // Add a user to the user list
   function addUser() {
-    const usernameInput = document.getElementById('username_input').value;
+    const usernameInput = normalizeUsername(document.getElementById('username_input').value);
 
-    // Add a new user
     if (usernameInput && !allowedUsers.has(usernameInput)) {
       allowedUsers.add(usernameInput);
+
+      if (usernameInput === currentUser) {
+        alert('You have been added. You can now send messages.'); 
+      } else {
+        alert('Please enter correct username: ' + currentUser);
+      }
+
       updateUserList();
-      document.getElementById('username_input').value = ''; // Clear the input field
+      document.getElementById('username_input').value = ''; 
     } else if (allowedUsers.has(usernameInput)) {
-      alert('User already exists.'); // Notify if the user already exists
+      alert('User already exists.'); 
     } else {
-      alert('Invalid input.'); // Notify if input is invalid
+      alert('Invalid input.'); 
     }
   }
 
   // Remove a user from the user list
   function removeUser(username) {
+    username = normalizeUsername(username); // Standardize the username before removing
+
     if (allowedUsers.has(username)) {
       allowedUsers.delete(username);
       updateUserList();
+
+      // If the current user is removed, prompt to add the username again
+      if (username === currentUser) {
+        alert('You have been removed. Please add your username again to send messages.');
+      }
     }
   }
 
@@ -112,10 +130,6 @@
       removeButton.textContent = 'Remove';
       removeButton.onclick = () => {
         removeUser(username);
-        // If the current user is removed, prompt to add the username again
-        if (username === currentUser) {
-          alert('You have been removed. Please add your username again to send messages.');
-        }
       };
 
       userItem.appendChild(removeButton);
@@ -125,6 +139,8 @@
 
   // Add a message to the message list
   function addMessageToList(username, message) {
+    username = normalizeUsername(username); // Standardize the username before displaying
+
     const messageList = document.getElementById('message_list');
     const messageItem = document.createElement('li');
     messageItem.className = 'list-group-item';
@@ -132,6 +148,7 @@
     messageList.appendChild(messageItem);
   }
 </script>
+
 
 {% endblock %}
 
