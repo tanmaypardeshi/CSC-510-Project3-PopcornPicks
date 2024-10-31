@@ -9,7 +9,8 @@ $(document).ready(function () {
             genres: main_element[5].textContent,
             imdb_id: main_element[6].textContent,
             poster_path: main_element[7].textContent,
-            review_text: $(`#review-${i}`)[0].value
+            review_text: $(`#review-${i}`)[0].value,
+            score: $(`#score-${i}`).val()
         }
         $.ajax({
             type: "POST",
@@ -22,6 +23,7 @@ $(document).ready(function () {
             success: (response) => {
               $(`#reviewModal-${i}`).modal('toggle');
               $(`#review-${i}`).value = "";
+              $(`#score-${i}`).val("1.0");
               $("#saved-flash").attr("hidden", false);
             },
             error: function(jqXHR, textStatus, errorThrown) {

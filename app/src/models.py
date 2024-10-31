@@ -54,9 +54,20 @@ class Review(db.Model):
     """
     review_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     review_text = db.Column(db.Text, nullable=False)
+    score = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     movieId = db.Column(db.Integer, db.ForeignKey('movie.movieId'), nullable=False)
 
     def __repr__(self):
         return f"{self.user_id} - {self.movieId}"
-    
+
+class ListMovie(db.Model):
+    """
+        List Table
+    """
+    list_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    movieId = db.Column(db.Integer, db.ForeignKey('movie.movieId'), nullable=False)
+
+    def __repr__(self):
+        return f"{self.user_id} - {self.movieId}"

@@ -2,7 +2,8 @@
 
 # [Check our Wiki Page for detailed information about the project, system architecture, installation steps, guides and a lot more!](https://github.com/tanmaypardeshi/CSC-510-Project3-PopcornPicks/wiki)
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://gitHub.com/tanmaypardeshi/PopcornPicks/graphs/commit-activity) [![Contributors Activity](https://img.shields.io/github/commit-activity/m/tanmaypardeshi/PopcornPicks)](https://github.com/tanmaypardeshi/PopcornPicks/pulse) [![GitHub issues](https://img.shields.io/github/issues/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues-closed](https://img.shields.io/github/issues-closed/tanmaypardeshi/PopcornPicks.svg)](https://github.com/tanmaypardeshi/PopcornPicks/issues?q=is%3Aissue+is%3Aclosed) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/tanmaypardeshi/PopcornPicks) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211655.svg)](https://doi.org/10.5281/zenodo.10211655) [![Unittest](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml/badge.svg?branch=master&event=push)](https://github.com/tanmaypardeshi/PopcornPicks/actions/workflows/unittest.yml) [![codecov](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks/graph/badge.svg?token=SZWTDA4REW)](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks)[![GitHub release](https://img.shields.io/github/release/tanmaypardeshi/PopcornPicks.svg)](https://GitHub.com/tanmaypardeshi/PopcornPicks/releases/) [![StyleCheck: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) [![HitCount](https://hits.dwyl.com/tanmaypardeshi/PopcornPicks.svg)](https://hits.dwyl.com/tanmaypardeshi/PopcornPicks) ![GitHub contributors](https://img.shields.io/github/contributors/tanmaypardeshi/PopcornPicks) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/tanmaypardeshi/PopcornPicks) ![GitHub repo size](https://img.shields.io/github/repo-size/tanmaypardeshi/PopcornPicks)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://gitHub.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks/graphs/commit-activity) [![Contributors Activity](https://img.shields.io/github/commit-activity/m/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks)](https://github.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks/pulse) [![GitHub issues](https://img.shields.io/github/issues/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks.svg)](https://github.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues-closed](https://img.shields.io/github/issues-closed/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks.svg)](https://github.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks/issues?q=is%3Aissue+is%3Aclosed) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211655.svg)](https://doi.org/10.5281/zenodo.10211655) [![Unittest](https://github.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks/actions/workflows/unittest.yml/badge.svg?branch=master&event=push)](https://github.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks/actions/workflows/unittest.yml) [![codecov](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks/graph/badge.svg?token=SZWTDA4REW)](https://codecov.io/gh/tanmaypardeshi/CSC-510-Project3-PopcornPicks)[![GitHub release](https://img.shields.io/github/release/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks.svg)](https://GitHub.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks/releases/) [![StyleCheck: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) [![HitCount](https://hits.dwyl.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks.svg)](https://hits.dwyl.com/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks) ![GitHub contributors](https://img.shields.io/github/contributors/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks) ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks) ![GitHub repo size](https://img.shields.io/github/repo-size/NCSU-CSC510-Group-BHAKQH/CSC-510-Project2-PopcornPicks)
+
 
 ![Home page](./asset/home-page.png)
 <b>PopcornPicks is more than just a movie recommender system; it's a gateway to a world of cinematic adventures. With an ever-expanding library of films, a powerful recommendation algorithm, an all-new chat room, a new state-of-the-art account system, a newly added robust review system, and more, PopcornPicks is here to transform the way you discover, enjoy, and connect with movies.</b>
@@ -93,6 +94,15 @@ Check out the significant changes that we made for Project 3:
 * Backend: [Click Here](https://github.com/tanmaypardeshi/CSC-510-Project3-PopcornPicks/wiki/Backend)
 * Frontend: [Click Here](https://github.com/tanmaypardeshi/CSC-510-Project3-PopcornPicks/wiki/Frontend)
 
+## Project 2 Fall 2024 - New Version
+
+Here are some of the new changes implemented for Project 2:
+* [Deployment To Render](#render-deployment)
+* [Lists](#lists-feature)
+* [Filtering Options](#filtering-options)
+* [Changes to Recommendation Logic](#recommendation-logic)
+* [UI Changes](#ui-changes)
+
 ## Tech stack Used👨‍💻:
 
 <code><a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5" target="_blank"><img height="50" src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-ar21.svg"></a></code>
@@ -129,6 +139,36 @@ Follow the setup instructions in the wiki documentation
 
 <b>Finally, start enjoying personalized movie recommendations!</b>
 
+### Render Deployment
+This project is now hosted on the free web service [Render](https://render.com)! You can access the site at this URL:
+
+[http://popcorn-picks.onrender.com](http://popcorn-picks.onrender.com)
+
+*WARNING*: Since this is hosted on the free tier on render, it can be slow at times, use at your own discretion. 
+
+#### Deploying to render
+The deployment CI is set up such that any commits to the master branch will trigger a reploy of the project. This generally takes around 2-3 minutes, so if you try and access the site right after committing and receive a 502, it is most likely that the deploy has not finished yet
+
+### Lists Feature
+![Lists](./asset/ListsFeature.gif)
+
+We have added a new 'Lists' feature. The users can create a list of (at least) five movies they would like to recommend to other users. The users can view the lists of other users on the 'Lists' page. It creates a sense of community. They are recommendations from other human users and not a computer.
+
+### Filtering options
+![Filtering](./asset/Filtering.gif)
+
+We have added two filtering options for users: Genres and Release Year. Users can now personalize their recommendations by limiting them to a particular genre or a movie released in a specific year. 
+
+### Recommendation Logic
+![Review](./asset/Review.gif)
+
+We have made changes to the recommendation system. Users can review the movies they are recommended to watch, and their reviews are now included as feedback to our recommendation code logic. The users can now add scores with their reviews instead of just text. The training data includes these past reviews with the scores from the user in addition to the five movies they select. This makes the recommendations better suited to the tastes of the user. Release year and genres selected by the user are also considered when selecting the top nine recommendations.
+
+### UI Changes
+![UI](./asset/UIChanges.gif)
+
+Each movie in the database now has its own webpage where the users can read up on the movie and also view reviews from other users. This helps them make more informed decisions. This also cleans up the UI and makes for a much better experience. The users can explore and learn new information instead of being bombarded with it. 
+
 ## Future Scope
 
 PopcornPicks is a dynamic project with endless possibilities for expansion and enhancement. Here are some exciting avenues for future development:
@@ -163,6 +203,11 @@ Please refer to the [CONTRIBUTING.md](https://github.com/tanmaypardeshi/PopcornP
 [Chandana Ray](https://github.com/cray94)<br>
 [Abhinav Sinha](https://github.com/abhinav110595)<br>
 [Sam Kwiatkowski-Martin](https://github.com/ExtremeMachine12)<br>
+
+### New Contributors for Project 2 Fall 2024
+[Aditya Karthikeyan](https://github.com/adryne01)<br>
+[Braden Helmer](https://github.com/bradenhelmer)<br>
+[Quoc Hung Le](https://github.com/hunglequoc2001)<br>
 
 ## Join the PopcornPicks Community:
 

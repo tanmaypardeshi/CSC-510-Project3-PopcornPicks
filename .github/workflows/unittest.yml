@@ -34,4 +34,3 @@ jobs:
       run: |
         cd app
         pytest test/test_chat.py
-    
